@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Module</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ module.id }}</td>
+            </tr>
+            <tr>
+                <th>Item</th>
+                <td>{{ module.item }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ module.code }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ module.name }}</td>
+            </tr>
+            <tr>
+                <th>Term</th>
+                <td>{{ module.term }}</td>
+            </tr>
+            <tr>
+                <th>Year</th>
+                <td>{{ module.year }}</td>
+            </tr>
+            <tr>
+                <th>Credit</th>
+                <td>{{ module.credit }}</td>
+            </tr>
+            <tr>
+                <th>Studentnos</th>
+                <td>{{ module.studentNos }}</td>
+            </tr>
+            <tr>
+                <th>Preparationhrs</th>
+                <td>{{ module.preparationHrs }}</td>
+            </tr>
+            <tr>
+                <th>Assessmenthrs</th>
+                <td>{{ module.assessmentHrs }}</td>
+            </tr>
+            <tr>
+                <th>Contacthrs</th>
+                <td>{{ module.contactHrs }}</td>
+            </tr>
+            <tr>
+                <th>Studioratio</th>
+                <td>{{ module.studioRatio }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('module_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('module_edit', { 'id': module.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

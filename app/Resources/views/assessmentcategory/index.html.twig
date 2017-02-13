@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Assessmentcategories list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for assessmentCategory in assessmentCategories %}
+            <tr>
+                <td><a href="{{ path('assessmentcategory_show', { 'id': assessmentCategory.id }) }}">{{ assessmentCategory.id }}</a></td>
+                <td>{{ assessmentCategory.name }}</td>
+                <td>{{ assessmentCategory.code }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('assessmentcategory_show', { 'id': assessmentCategory.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('assessmentcategory_edit', { 'id': assessmentCategory.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('assessmentcategory_new') }}">Create a new assessmentCategory</a>
+        </li>
+    </ul>
+{% endblock %}

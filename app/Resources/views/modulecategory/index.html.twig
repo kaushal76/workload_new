@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Modulecategories list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for moduleCategory in moduleCategories %}
+            <tr>
+                <td><a href="{{ path('modulecategory_show', { 'id': moduleCategory.id }) }}">{{ moduleCategory.id }}</a></td>
+                <td>{{ moduleCategory.name }}</td>
+                <td>{{ moduleCategory.code }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('modulecategory_show', { 'id': moduleCategory.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('modulecategory_edit', { 'id': moduleCategory.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('modulecategory_new') }}">Create a new moduleCategory</a>
+        </li>
+    </ul>
+{% endblock %}

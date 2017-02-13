@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Groupfilters list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for groupFilter in groupFilters %}
+            <tr>
+                <td><a href="{{ path('groupfilter_show', { 'id': groupFilter.id }) }}">{{ groupFilter.id }}</a></td>
+                <td>{{ groupFilter.name }}</td>
+                <td>{{ groupFilter.code }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('groupfilter_show', { 'id': groupFilter.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('groupfilter_edit', { 'id': groupFilter.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('groupfilter_new') }}">Create a new groupFilter</a>
+        </li>
+    </ul>
+{% endblock %}

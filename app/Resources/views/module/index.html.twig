@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Modules list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Item</th>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Term</th>
+                <th>Year</th>
+                <th>Credit</th>
+                <th>Studentnos</th>
+                <th>Preparationhrs</th>
+                <th>Assessmenthrs</th>
+                <th>Contacthrs</th>
+                <th>Studioratio</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for module in modules %}
+            <tr>
+                <td><a href="{{ path('module_show', { 'id': module.id }) }}">{{ module.id }}</a></td>
+                <td>{{ module.item }}</td>
+                <td>{{ module.code }}</td>
+                <td>{{ module.name }}</td>
+                <td>{{ module.term }}</td>
+                <td>{{ module.year }}</td>
+                <td>{{ module.credit }}</td>
+                <td>{{ module.studentNos }}</td>
+                <td>{{ module.preparationHrs }}</td>
+                <td>{{ module.assessmentHrs }}</td>
+                <td>{{ module.contactHrs }}</td>
+                <td>{{ module.studioRatio }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('module_show', { 'id': module.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('module_edit', { 'id': module.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('module_new') }}">Create a new module</a>
+        </li>
+    </ul>
+{% endblock %}

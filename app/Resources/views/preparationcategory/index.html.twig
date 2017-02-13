@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Preparationcategories list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for preparationCategory in preparationCategories %}
+            <tr>
+                <td><a href="{{ path('preparationcategory_show', { 'id': preparationCategory.id }) }}">{{ preparationCategory.id }}</a></td>
+                <td>{{ preparationCategory.name }}</td>
+                <td>{{ preparationCategory.code }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('preparationcategory_show', { 'id': preparationCategory.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('preparationcategory_edit', { 'id': preparationCategory.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('preparationcategory_new') }}">Create a new preparationCategory</a>
+        </li>
+    </ul>
+{% endblock %}

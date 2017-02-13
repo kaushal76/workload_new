@@ -1,0 +1,21 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+{{ form_start(form) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.firstname) }}
+    {{ form_row(form.surname) }}
+    <ul class="allocations"
+        data-prototype="
+            {% filter escape %}
+              {{ include(':allocations:prototype.html.twig', { 'form': form.allocations.vars.prototype }) }}
+            {% endfilter %}
+        ">
+    </ul>
+    <input type="submit" value="Edit" />
+    {{ form_widget(form._token) }}
+{{ form_end(form, {'render_rest': false}) }}
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('javascript/allocations.js') }}"></script>
+{% endblock %}

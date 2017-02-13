@@ -1,0 +1,71 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1>{{ staff.title}}{{' '}}{{ staff.firstname}}{{' '}}{{ staff.surname }}</h1>
+                </div>
+                <div class="panel-body">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h1>Allocations</h1></div>
+                <div class="panel-body">
+                    {{ form_start(form) }}
+                    <table class="table table-striped allocations" data-prototype="
+                    {% filter escape %}
+                      {{ include(':allocations:prototype.html.twig', { 'form': form.allocations.vars.prototype }) }}
+                    {% endfilter %}">
+                        <thead>
+                        <tr>
+                            <th>
+                                Item
+                            </th>
+                            <th>
+                                Allocated hours
+                            </th>
+                            <th>
+                                Actions
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for allocation in form.allocations %}
+                            <tr class="rowbody">
+                                <td>
+                                    {{ form_widget(allocation.item) }}
+                                </td>
+                                <td>
+                                    {{ form_widget(allocation.allocatedHrs) }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <button class="btn btn-primary" name="submit" type="submit">Submit</button>
+                                </div>
+                            </div>
+
+                            {{ form_widget(form._token) }}
+                        </tr>
+                        <div class="hidden">
+                            {{ form_widget(form.title) }}
+                            {{ form_widget(form.firstname) }}
+                            {{ form_widget(form.surname) }}
+                        </div>
+                    {{ form_end(form, {'render_rest': false}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('javascript/allocations.js') }}"></script>
+{% endblock %}
