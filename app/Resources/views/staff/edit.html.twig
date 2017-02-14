@@ -1,45 +1,36 @@
 {% extends '::base.html.twig' %}
-
 {% block body %}
-    <div class="well">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h1>Staff</h1></div>
+            <div class="panel-body">
+            </div>
+        </div>
+        <div class="btn-group">
+            {{ form_start(delete_form) }}
+            <input class="btn btn-danger" type="submit" value="Delete" />
+            <a class="btn btn-primary inline" href="{{ path('index_staff') }}">Back to the List</a>
+            {{ form_end(delete_form) }}
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h1>Edit Staff</h1></div>
+            <div class="panel-body">
+                <fieldset>
+                    <legend>Edit</legend>
+                    {{ form_start(edit_form) }}
+                    {{ form_row(edit_form.title) }}
+                    {{ form_row(edit_form.firstname) }}
+                    {{ form_row(edit_form.surname) }}
+                    {{ form_widget(edit_form._token) }}
+                    <div class="text-right">
+                        <input class="btn btn-primary" type="submit" value="Save changes" />
+                    </div>
+                    {{ form_end(edit_form, {'render_rest': false}) }}
+                </fieldset>
+            </div>
+        </div>
+    </div>
 
-        <h1>Staff edit</h1>
-
-        {{ form_start(edit_form) }}
-        {{ form_row(edit_form.title) }}
-        {{ form_row(edit_form.firstname) }}
-        {{ form_row(edit_form.surname) }}
-
-         <ul class="allocations"
-            data-prototype="
-                {% filter escape %}
-                  {{ include(':allocations:prototype.html.twig', { 'form': edit_form.allocations.vars.prototype }) }}
-                {% endfilter %}
-            ">
-        {% for allocation in edit_form.allocations %}
-            {{ form_row(allocation.item) }}
-            {{ form_row(allocation.allocatedHrs) }}
-        {% endfor %}
-        <input type="submit" value="Edit" />
-        {{ form_widget(edit_form._token) }}
-        </ul>
-        {{ form_end(edit_form, {'render_rest': false}) }}
-
-
-
-        <ul>
-            <li>
-                <a href="{{ path('index_staff') }}">Back to the list</a>
-            </li>
-            <li>
-                {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-                {{ form_end(delete_form) }}
-            </li>
-        </ul>
-
-{% endblock %}
-
-{% block javascripts %}
-  <script src="{{ asset('javascript/allocations.js') }}"></script>
 {% endblock %}

@@ -6,47 +6,163 @@ use AppBundle\Form\ItemType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Doctrine\Common\Collections\ArrayCollection;
 
 
+/**
+ * Class ItemController
+ * @package AppBundle\Controller
+ * @Route("item")
+ */
 class ItemController extends Controller
 {
     /**
-     * @Route ("/", name="homepage")
+     * Lists all Item entities.
+     *
+     * @Route("/", name="item_index")
+     * @Method("GET")
      */
-
-    public function indexAction(Request $request)
+    public function indexAction()
     {
-        return $this->render('item/index.html.twig');
+        $em = $this->getDoctrine()->getManager();
+
+        $items = $em->getRepository('AppBundle:Item')->findAll();
+
+        return $this->render(':item:index.html.twig', array(
+            'items' => $items,
+        ));
     }
 
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/item/new", name = "new_item")
+     * @Route("/new", name = "item_new")
      */
 
     public function newAction(Request $request)
     {
-        $item = new Item();
+        $item = new Item;
 
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            foreach ($item->getAllocations() as $allocation) {
-                $allocation->setItem($item);
-            }
             $em->persist($item);
             $em->flush();
 
-            return $this->redirectToRoute('homepage', array('id' => $item->getId()));
+            return $this->redirectToRoute('item_index', array('id' => $item->getId()));
         }
 
         return $this->render(':item:new.html.twig', array(
             'form' => $form->createView(),
         ));
+    }
 
+    /**
+     * Displays a form to edit an existing Item entity.
+     *
+     * @param Request $request Item $item
+     * @Route("/{id}/edit", name="item_edit")
+     * @Method({"GET", "POST"})
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function editAction(Request $request, Item $item)
+    {
+        $deleteForm = $this->createDeleteForm($item);
+        $editForm = $this->createForm(ItemType::class, $item);
+        $editForm->handleRequest($request);
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($item);
+            $em->flush();
+            return $this->redirectToRoute('item_edit', array('id' => $item->getId()));
+        }
+        return $this->render('item/edit.html.twig', array(
+            'item' => $item,
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+    /**
+     * Displays a form to show an existing Item entity.
+     *
+     * @param Request $request Item $item
+     * @Route("/{id}/show", name="item_show")
+     * @Method({"GET", "POST"})
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+
+    public function showAction(Request $request, Item $item)
+    {
+
+        $form = $this->createForm(ItemType::class, $item);
+        $em = $this->getDoctrine()->getManager();
+        $staffObj = $em->getRepository('AppBundle:Item')->find($item);
+
+        $originalAllocations = new ArrayCollection();
+
+        foreach ($staffObj->getAllocations() as $allocation) {
+            $originalAllocations->add($allocation);
+        }
+
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            foreach ($item->getAllocations() as $allocation) {
+                $allocation->setItem($item);
+            }
+
+            foreach ($originalAllocations as $allocation) {
+                if (false === $item->getAllocations()->contains($allocation)) {
+                    $em->remove($allocation);
+                }
+            }
+            $em->persist($item);
+            $em->flush();
+            return $this->redirectToRoute('item_show', array('id' => $item->getId()));
+        }
+
+        return $this->render('item/show.html.twig', array(
+            'item' => $item,
+            'form' => $form->createView(),
+        ));
+
+    }
+
+    /**
+     * Deletes an item entity.
+     *
+     * @Route("/{id}", name="item_delete")
+     * @Method("DELETE")
+     */
+    public function deleteAction(Request $request, Item $item)
+    {
+        $form = $this->createDeleteForm($item);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($item);
+            $em->flush();
+        }
+        return $this->redirectToRoute('item_index');
+    }
+
+    /**
+     * Creates a form to delete a item entity
+     * @param Item $item The Item entity
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm(Item $item)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('item_delete', array('id' => $item->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
+            ;
     }
 
 }

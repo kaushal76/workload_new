@@ -10,21 +10,34 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Doctrine\Common\Collections\ArrayCollection;
 
 
+/**
+ * Class StaffController
+ * @package AppBundle\Controller
+ * @Route("staff")
+ */
 class StaffController extends Controller
 {
     /**
-     * @Route ("/staff", name="index_staff")
+     * Lists all Staff entities.
+     *
+     * @Route("/", name="index_staff")
+     * @Method("GET")
      */
-
-    public function indexAction(Request $request)
+    public function indexAction()
     {
-        return $this->render('staff/index.html.twig');
+        $em = $this->getDoctrine()->getManager();
+
+        $staffs = $em->getRepository('AppBundle:Staff')->findAll();
+
+        return $this->render(':staff:index.html.twig', array(
+            'staffs' => $staffs,
+        ));
     }
 
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/staff/new", name = "new_staff")
+     * @Route("/new", name = "new_staff")
      */
 
     public function newAction(Request $request)
@@ -51,7 +64,7 @@ class StaffController extends Controller
      * Displays a form to edit an existing Staff entity.
      *
      * @param Request $request Staff $staff
-     * @Route("staff/{id}/edit", name="edit_staff")
+     * @Route("/{id}/edit", name="edit_staff")
      * @Method({"GET", "POST"})
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -77,7 +90,7 @@ class StaffController extends Controller
      * Displays a form to show an existing Staff entity.
      *
      * @param Request $request Staff $staff
-     * @Route("staff/{id}/show", name="show_staff")
+     * @Route("/{id}/show", name="show_staff")
      * @Method({"GET", "POST"})
      * @return \Symfony\Component\HttpFoundation\Response
      */

@@ -104,14 +104,14 @@ class Module {
 
     /**
      * One module leader one staff .
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Staff")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Staff")
      * @ORM\JoinColumn(name="moduleLeader", referencedColumnName="id")
      */
     protected $moduleLeader;
 
     /**
      * One internal Moderator one staff .
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Staff")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Staff")
      * @ORM\JoinColumn(name="internalModerator", referencedColumnName="id")
      */
     protected $internalModerator;

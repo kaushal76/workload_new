@@ -5,7 +5,7 @@
         <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h1>{{ staff.title}}{{' '}}{{ staff.firstname}}{{' '}}{{ staff.surname }}</h1>
+                    <h1>{{ item.name}}</h1>
                 </div>
                 <div class="panel-body"></div>
             </div>
@@ -18,13 +18,13 @@
                     <table class="table table-striped allocations"
                            data-prototype="
                                 {% filter escape %}
-                                    {{ include(':allocations:prototype.html.twig', { 'form': form.allocations.vars.prototype }) }}
+                                    {{ include(':allocations:prototype.item.html.twig', { 'form': form.allocations.vars.prototype }) }}
                                 {% endfilter %}
                     ">
                         <thead>
                         <tr>
                             <th>
-                                Item
+                                Staff
                             </th>
                             <th>
                                 Allocated hours
@@ -38,7 +38,7 @@
                         {% for allocation in form.allocations %}
                             <tr class="rowbody">
                                 <td >
-                                    {{ form_widget(allocation.item) }}
+                                    {{ form_widget(allocation.staff) }}
                                 </td >
                                 <td width="20%">
                                     {{ form_widget(allocation.allocatedHrs) }}
@@ -49,9 +49,8 @@
                     </table>
                         {{ form_widget(form._token) }}
                         <div class="hidden">
-                            {{ form_widget(form.title) }}
-                            {{ form_widget(form.firstname) }}
-                            {{ form_widget(form.surname) }}
+                            {{ form_widget(form.name) }}
+                            {{ form_widget(form.category) }}
                         </div>
 
                 </div>

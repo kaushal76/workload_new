@@ -1,31 +1,32 @@
-{% extends 'base.html.twig' %}
-
+{% extends '::base.html.twig' %}
 {% block body %}
     <div class="col-md-4">
         <div class="panel panel-default">
-            <div class="panel-heading"><h1>Preparation Category</h1></div>
+            <div class="panel-heading"><h1>Item</h1></div>
             <div class="panel-body">
             </div>
         </div>
         <div class="btn-group">
             {{ form_start(delete_form) }}
             <input class="btn btn-danger" type="submit" value="Delete" />
-            <a class="btn btn-primary inline" href="{{ path('preparationcategory_index') }}">Back to the List</a>
+            <a class="btn btn-primary inline" href="{{ path('item_index') }}">Back to the List</a>
             {{ form_end(delete_form) }}
         </div>
     </div>
     <div class="col-md-8">
         <div class="panel panel-default">
-            <div class="panel-heading"><h1>Edit preparation category</h1></div>
+            <div class="panel-heading"><h1>Edit Item</h1></div>
             <div class="panel-body">
                 <fieldset>
                     <legend>Edit</legend>
                     {{ form_start(edit_form) }}
-                    {{ form_widget(edit_form) }}
+                    {{ form_row(edit_form.name) }}
+                    {{ form_row(edit_form.category) }}
+                    {{ form_widget(edit_form._token) }}
                     <div class="text-right">
                         <input class="btn btn-primary" type="submit" value="Save changes" />
                     </div>
-                    {{ form_end(edit_form) }}
+                    {{ form_end(edit_form, {'render_rest': false}) }}
                 </fieldset>
             </div>
         </div>

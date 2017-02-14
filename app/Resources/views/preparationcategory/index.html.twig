@@ -1,41 +1,55 @@
-{% extends 'base.html.twig' %}
+{% extends '::base.html.twig' %}
 
 {% block body %}
-    <h1>Preparationcategories list</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1>Preparation categories</h1>
+                </div>
+                <div class="panel-body"></div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h1>Preparation categories</h1></div>
+                <div id="tablepanel" class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th width="5%">ID</th>
+                            <th>Name</th>
+                            <th width="20%">Code</th>
+                            <th width="20%">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for preparationCategory in preparationCategories %}
+                            <tr>
+                                <td>
+                                    <a href="{{ path('preparationcategory_show', { 'id': preparationCategory.id }) }}">{{ preparationCategory.id }}</a>
+                                </td>
+                                <td>{{ preparationCategory.name }}</td>
+                                <td>{{ preparationCategory.code }}</td>
+                                <td>
+                                    <a class="btn btn-primary"
+                                       href="{{ path('preparationcategory_show', { 'id': preparationCategory.id }) }}">Show</a>
+                                    <a class="btn btn-primary"
+                                       href="{{ path('preparationcategory_edit', { 'id': preparationCategory.id }) }}">Edit</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div>
+                <a class="btn btn-primary" href="{{ path('preparationcategory_new') }}">Create a new</a>
+            </div>
+        </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Code</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for preparationCategory in preparationCategories %}
-            <tr>
-                <td><a href="{{ path('preparationcategory_show', { 'id': preparationCategory.id }) }}">{{ preparationCategory.id }}</a></td>
-                <td>{{ preparationCategory.name }}</td>
-                <td>{{ preparationCategory.code }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('preparationcategory_show', { 'id': preparationCategory.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('preparationcategory_edit', { 'id': preparationCategory.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('preparationcategory_new') }}">Create a new preparationCategory</a>
-        </li>
-    </ul>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('javascript/allocations.js') }}"></script>
 {% endblock %}

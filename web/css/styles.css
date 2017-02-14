@@ -19,6 +19,6 @@ body {
     display: none;
 }
 
-.panel-body {
+#tablepanel {
     padding: 0;
 }

@@ -1,16 +1,32 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Module creation</h1>
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h1>Module</h1></div>
+            <div class="panel-body">
+            </div>
+        </div>
+        <div>
+            <a class="btn btn-primary" href="{{ path('module_index') }}">Back to the List</a>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h1>Create a module </h1></div>
+            <div class="panel-body">
+                <fieldset>
+                    <legend>Add</legend>
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <div class="text-right">
+                        <input class="btn btn-primary" type="submit" value="Create" />
+                    </div>
+                    {{ form_end(form) }}
+                </fieldset>
+            </div>
+        </div>
+    </div>
 
-    <ul>
-        <li>
-            <a href="{{ path('module_index') }}">Back to the list</a>
-        </li>
-    </ul>
 {% endblock %}

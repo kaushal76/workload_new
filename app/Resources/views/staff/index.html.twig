@@ -1,5 +1,53 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
-    <p>This will appear inside the container > row > col-sm-12 div</p>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1>Staff</h1>
+                </div>
+                <div class="panel-body"></div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h1>Staff</h1></div>
+                <div id="tablepanel" class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th width="5%">ID</th>
+                            <th>Name</th>
+                            <th width="20%">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for staff in staffs %}
+                            <tr>
+                                <td>
+                                    <a href="{{ path('show_staff', { 'id': staff.id }) }}">{{ staff.id }}</a>
+                                </td>
+                                <td>{{ staff.title }}{{' '}}{{ staff.firstname }}{{ ' ' }}{{ staff.surname }}  </td>
+                                <td>
+                                    <a class="btn btn-primary"
+                                       href="{{ path('show_staff', { 'id': staff.id }) }}">Show</a>
+                                    <a class="btn btn-primary"
+                                       href="{{ path('edit_staff', { 'id': staff.id }) }}">Edit</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div>
+                <a class="btn btn-primary" href="{{ path('new_staff') }}">Create a new</a>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('javascript/allocations.js') }}"></script>
 {% endblock %}
