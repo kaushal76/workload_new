@@ -41,6 +41,13 @@ class Item {
 
     /**
      *
+     * One optional phdstudent one item .
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\phdStudent", mappedBy="item")
+     */
+    protected $phdstudent;
+
+    /**
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ItemCategory", inversedBy="items")
      * @ORM\JoinColumn(name="item_category", referencedColumnName="id")
      */
@@ -55,6 +62,23 @@ class Item {
     {
         $this->allocations = new ArrayCollection();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPhdstudent()
+    {
+        return $this->phdstudent;
+    }
+
+    /**
+     * @param mixed $phdstudent
+     */
+    public function setPhdstudent($phdstudent)
+    {
+        $this->phdstudent = $phdstudent;
+    }
+
 
     /**
      * @return ItemCategory

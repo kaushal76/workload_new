@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h1>PhD student</h1></div>
+            <div class="panel-body">
+            </div>
+        </div>
+        <div class="btn-group">
+            {{ form_start(delete_form) }}
+            <input class="btn btn-danger" type="submit" value="Delete" />
+            <a class="btn btn-primary inline" href="{{ path('phdstudent_index') }}">Back to the List</a>
+            {{ form_end(delete_form) }}
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h1>Edit PhD Student</h1></div>
+            <div class="panel-body">
+                <fieldset>
+                    <legend>Edit</legend>
+                    {{ form_start(edit_form) }}
+                    {{ form_widget(edit_form) }}
+                    <div class="text-right">
+                        <input class="btn btn-primary" type="submit" value="Save changes" />
+                    </div>
+                    {{ form_end(edit_form) }}
+                </fieldset>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

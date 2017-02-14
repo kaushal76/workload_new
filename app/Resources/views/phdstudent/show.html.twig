@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1>PhD student details</h1>
+                </div>
+                <div class="panel-body"></div>
+            </div>
+            <div class="btn-group">
+                {{ form_start(delete_form) }}
+                <input class="btn btn-danger" type="submit" value="Delete">
+                <a class="btn btn-primary" href="{{ path('phdstudent_index') }}">Back to the list</a>
+                <a class="btn btn-primary" href="{{ path('phdstudent_edit', { 'id': phdStudent.id }) }}">Edit</a>
+                {{ form_end(delete_form) }}
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1>Details</h1>
+                </div>
+                <div id= "tablepanel" class="panel-body">
+                    <table class="table table-striped">
+                        <tbody>
+                        <tr>
+                            <th width="30%">ID</th>
+                            <td>{{ phdStudent.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Mode</th>
+                            <td>{{ phdStudent.mode }}</td>
+                        </tr>
+                        <tr>
+                            <th>Name</th>
+                            <td>{{ phdStudent.name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Total hours</th>
+                            <td>{{ phdStudent.totalHrs }}</td>
+                        </tr>
+                        <tr>
+                            <th>Item</th>
+                            <td>{{ phdStudent.item }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

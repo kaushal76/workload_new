@@ -1,0 +1,58 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1>PhD students</h1>
+                </div>
+                <div class="panel-body"></div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h1>PhD students</h1></div>
+                <div id="tablepanel" class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th width="5%">ID</th>
+                            <th>Name</th>
+                            <th width="20%">Mode</th>
+                            <th width="20%">Total Hours</th>
+                            <th width="20%">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for phdStudent in phdStudents %}
+                            <tr>
+                                <td>
+                                    <a href="{{ path('phdstudent_show', { 'id': phdStudent.id }) }}">{{ phdStudent.id }}</a>
+                                </td>
+                                <td>{{ phdStudent.name }}</td>
+                                <td>{{ phdStudent.mode }}</td>
+                                <td>{{ phdStudent.totalHrs }}</td>
+                                <td>
+                                    <a class="btn btn-primary"
+                                       href="{{ path('phdstudent_show', { 'id': phdStudent.id }) }}">Show</a>
+                                    <a class="btn btn-primary"
+                                       href="{{ path('phdstudent_edit', { 'id': phdStudent.id }) }}">Edit</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div>
+                <a class="btn btn-primary" href="{{ path('phdstudent_new') }}">Create a new</a>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('javascript/allocations.js') }}"></script>
+{% endblock %}
+
