@@ -40,7 +40,7 @@ class Item {
     protected $module;
 
     /**
-     * @var int
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ItemCategory", inversedBy="items")
      * @ORM\JoinColumn(name="item_category", referencedColumnName="id")
      */

@@ -17,6 +17,7 @@ class ItemType extends AbstractType
         $builder->add('allocations', CollectionType::class, array(
             'entry_type'   => AllocationType::class,
             'allow_add'   => true,
+            'allow_delete' => true,
             'by_reference' => false,
         ));
     }

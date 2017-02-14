@@ -100,11 +100,11 @@ class ItemController extends Controller
 
         $form = $this->createForm(ItemType::class, $item);
         $em = $this->getDoctrine()->getManager();
-        $staffObj = $em->getRepository('AppBundle:Item')->find($item);
+        $itemObj = $em->getRepository('AppBundle:Item')->find($item);
 
         $originalAllocations = new ArrayCollection();
 
-        foreach ($staffObj->getAllocations() as $allocation) {
+        foreach ($itemObj->getAllocations() as $allocation) {
             $originalAllocations->add($allocation);
         }
 
