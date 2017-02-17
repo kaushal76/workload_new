@@ -33,6 +33,12 @@ class Item {
     protected $name;
 
     /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $code;
+
+    /**
      *
      * One optional module one item .
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Module", mappedBy="item")
@@ -62,6 +68,23 @@ class Item {
     {
         $this->allocations = new ArrayCollection();
     }
+
+    /**
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * @param string $code
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+    }
+
 
     /**
      * @return mixed

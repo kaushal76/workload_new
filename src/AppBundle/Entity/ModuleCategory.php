@@ -38,6 +38,18 @@ class ModuleCategory {
      */
     protected $code;
 
+    /**
+     * @var float
+     * @ORM\Column(type="float")
+     */
+    protected $studioPrepHrs;
+
+
+    /**
+     * @var float
+     * @ORM\Column(type="float")
+     */
+    protected $contactHrsFactor;
 
     /**
      * ModuleCategory constructor.
@@ -47,6 +59,39 @@ class ModuleCategory {
     {
         $this->modules = new ArrayCollection();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getStudioPrepHrs()
+    {
+        return $this->studioPrepHrs;
+    }
+
+    /**
+     * @param mixed $studioPrepHrs
+     */
+    public function setStudioPrepHrs($studioPrepHrs)
+    {
+        $this->studioPrepHrs = $studioPrepHrs;
+    }
+
+    /**
+     * @return float
+     */
+    public function getContactHrsFactor()
+    {
+        return $this->contactHrsFactor;
+    }
+
+    /**
+     * @param float $contactHrsFactor
+     */
+    public function setContactHrsFactor($contactHrsFactor)
+    {
+        $this->contactHrsFactor = $contactHrsFactor;
+    }
+
 
     /**
      * @return mixed

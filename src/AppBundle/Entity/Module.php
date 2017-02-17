@@ -98,9 +98,17 @@ class Module {
      */
     protected $contactHrs;
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="float")
      */
     protected $studioRatio;
+
+
+    /**
+     * @var float
+     * @ORM\Column(type="float")
+     */
+    protected $groupFactor;
+
 
     /**
      * One module leader one staff .
@@ -130,6 +138,22 @@ class Module {
     public function getItem()
     {
         return $this->item;
+    }
+
+    /**
+     * @return float
+     */
+    public function getGroupFactor()
+    {
+        return $this->groupFactor;
+    }
+
+    /**
+     * @param float $groupFactor
+     */
+    public function setGroupFactor($groupFactor)
+    {
+        $this->groupFactor = $groupFactor;
     }
 
     /**
@@ -309,19 +333,38 @@ class Module {
     }
 
     /**
-     * @param int $preparationCategory
+     * @param mixed $preparationCategory
      */
     public function setPreparationCategory($preparationCategory)
     {
         $this->preparationCategory = $preparationCategory;
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getPreparationHrs()
     {
-        return $this->preparationHrs;
+        $credit = $this->getCredit();
+        $mode = $this->getModuleCategory();
+        $studio = $this->getStudioRatio();
+        $preparationCategory = $this->getPreparationCategory();
+        $studioPrepHrs = $preparationCategory->getstudioPrepHrs();
+
+        $preparationHrs = 0;
+
+        if ($mode->getCode() == 1) {
+            $preparationHrs = (int)$credit * (float)$preparationCategory->getCode();
+        }
+
+        if ($mode->getCode() == 2) {
+            $preparationHrs = $studioPrepHrs;
+        }
+
+        if ($mode->getCode() == 3) {
+
+            $preparationHrs = ((int)$credit * (float)$preparationCategory->getCode() * (1-((float)$studio)))+((float)$studioPrepHrs * (float)$studio);
+        }
+
+        return $preparationHrs;
     }
 
     /**
@@ -332,12 +375,32 @@ class Module {
         $this->preparationHrs = $preparationHrs;
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getAssessmentHrs()
     {
-        return $this->assessmentHrs;
+        $credit = $this->getCredit();
+        $mode = $this->getModuleCategory();
+        $studentNumbers = $this->getStudentNos();
+        $studio = $this->getStudioRatio();
+        $assessmentCategory = $this->getAssessmentCategory();
+        $studioAssessmentHrs = $assessmentCategory->getstudioAssessmentHrs();
+
+        $assessmentHrs = 0;
+
+        if ($mode->getCode() == 1) {
+            $assessmentHrs = (float)$credit * (float)$assessmentCategory->getCode() * (float)$studentNumbers;
+        }
+
+        if ($mode->getCode() == 2) {
+            $assessmentHrs = $studioAssessmentHrs * (float)$credit * (float)$studentNumbers;
+        }
+
+        if ($mode->getCode() == 3) {
+
+            $assessmentHrs = ((int)$credit * (float)$assessmentCategory->getCode() * (1-((float)$studio)) * (float)$studentNumbers)+((float)$studioAssessmentHrs * (float)$studio * (float)$credit * (float)$studentNumbers);
+        }
+
+        return $assessmentHrs;
     }
 
     /**
@@ -353,7 +416,39 @@ class Module {
      */
     public function getContactHrs()
     {
-        return $this->contactHrs;
+        $credit = $this->getCredit();
+        $mode = $this->getModuleCategory();
+        $studentNumbers = $this->getStudentNos();
+        $studio = $this->getStudioRatio();
+        $groupFactor = $this->getGroupFactor();
+        $contactHrsfactor = $mode->getContactHrsFactor();
+
+        $contactHrs = 0;
+
+        if ($mode->getCode() == 1) {
+            $contactHrs = (float)$credit * (float)$contactHrsfactor;
+        }
+
+        if ($mode->getCode() == 2) {
+            $contactHrs = (float)$credit * (float)$contactHrsfactor * (float)$groupFactor;
+        }
+
+        if ($mode->getCode() == 3) {
+
+            $contactHrs = ((float)$credit * (float)$contactHrsfactor * (1-((float)$studio)))+((float)$credit * (float)$contactHrsfactor * (float)$groupFactor * (float)$studio);
+        }
+
+        if ($mode->getCode() == 4) {
+
+            $contactHrs = (float)$contactHrsfactor * $studentNumbers;
+        }
+
+        if ($mode->getCode() == 5) {
+
+            $contactHrs = (float)$contactHrsfactor * $studentNumbers;
+        }
+
+        return $contactHrs;
     }
 
     /**

@@ -9,13 +9,14 @@ use Doctrine\ORM\Mapping as ORM;
  * @package AppBundle\Entity
  * @ORM\Entity
  * @ORM\Table(name="allocations")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\AlloactionRepository")
  */
 class Allocation {
 
 
     /**
      *
-     * @var int
+     * @var
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Staff", inversedBy="allocations")
      * @ORM\JoinColumn(name="staff", referencedColumnName="id")
@@ -24,7 +25,7 @@ class Allocation {
 
     /**
      *
-     * @var int
+     * @var
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Item", inversedBy="allocations")
      * @ORM\JoinColumn(name="item", referencedColumnName="id")
@@ -38,6 +39,53 @@ class Allocation {
     protected $allocatedHrs;
 
     /**
+     * @var float
+     * @ORM\Column(type="float")
+     */
+
+    protected $prepHrs;
+
+    /**
+     * @var float
+     * @ORM\Column(type="float")
+     */
+
+    protected $assessmentHrs;
+
+    /**
+     * @return float
+     */
+    public function getAssessmentHrs()
+    {
+        return $this->assessmentHrs;
+    }
+
+    /**
+     * @param float $assessmentHrs
+     */
+    public function setAssessmentHrs($assessmentHrs)
+    {
+        $this->assessmentHrs = $assessmentHrs;
+    }
+
+
+    /**
+     * @return float
+     */
+    public function getPrepHrs()
+    {
+        return $this->prepHrs;
+    }
+
+    /**
+     * @param float $prepHrs
+     */
+    public function setPrepHrs($prepHrs)
+    {
+        $this->prepHrs = $prepHrs;
+    }
+
+    /**
      * @return int
      */
     public function getStaff()
@@ -46,7 +94,7 @@ class Allocation {
     }
 
     /**
-     * @return int
+     * @return Item
      */
     public function getItem()
     {
@@ -85,4 +133,39 @@ class Allocation {
         $this->allocatedHrs = $allocatedHrs;
     }
 
+    /*
+     * @return
+     */
+    public function calculatePrepHrs(Item $item)
+    {
+        $module = $item->getModule();
+        $prepHrs = 0;
+        if (is_object($module))
+        {
+            $moduleContactHrs = $module->getContactHrs();
+            $modulePrepHrs = $module->getPreparationHrs();
+            $allocatedHrs = $this->getAllocatedHrs();
+
+            $prepHrs = (float)$allocatedHrs * (float)$modulePrepHrs/(float)$moduleContactHrs;
+        }
+        return $prepHrs;
+    }
+
+    /*
+     * @return
+     */
+    public function calculateAssessmentHrs(Item $item)
+    {
+        $module = $item->getModule();
+        $AssessmentHrs = 0;
+        if (is_object($module))
+        {
+            $moduleContactHrs = $module->getContactHrs();
+            $moduleAssHrs = $module->getAssessmentHrs();
+            $allocatedHrs = $this->getAllocatedHrs();
+
+            $AssessmentHrs= (float)$allocatedHrs * (float)$moduleAssHrs/(float)$moduleContactHrs;
+        }
+        return $AssessmentHrs;
+    }
 }

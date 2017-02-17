@@ -33,10 +33,16 @@ class AssessmentCategory {
     protected $name;
 
     /**
-     * @var string
-     * @ORM\Column(type="string")
+     * @var float
+     * @ORM\Column(type="float")
      */
     protected $code;
+
+    /**
+     * @var float
+     * @ORM\Column(type="float")
+     */
+    protected $studioAssessmentHrs;
 
 
     /**
@@ -47,6 +53,24 @@ class AssessmentCategory {
     {
         $this->modules = new ArrayCollection();
     }
+
+
+    /**
+     * @return float
+     */
+    public function getStudioAssessmentHrs()
+    {
+        return $this->studioAssessmentHrs;
+    }
+
+    /**
+     * @param float $studioAssessmentHrs
+     */
+    public function setStudioAssessmentHrs($studioAssessmentHrs)
+    {
+        $this->studioAssessmentHrs = $studioAssessmentHrs;
+    }
+
 
     /**
      * @return mixed

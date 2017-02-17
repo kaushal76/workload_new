@@ -1,8 +1,10 @@
 <?php
 namespace AppBundle\Controller;
 
+use AppBundle\AppBundle;
 use AppBundle\Entity\Staff;
 use AppBundle\Form\StaffType;
+use AppBundle\Repository\AlloactionRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,7 +54,7 @@ class StaffController extends Controller
             $em->persist($staff);
             $em->flush();
 
-            return $this->redirectToRoute('homepage', array('id' => $staff->getId()));
+            return $this->redirectToRoute('index_staff', array('id' => $staff->getId()));
         }
 
         return $this->render(':staff:new.html.twig', array(
@@ -114,6 +116,8 @@ class StaffController extends Controller
 
             foreach ($staff->getAllocations() as $allocation) {
                $allocation->setStaff($staff);
+                $allocation->setprepHrs($allocation->calculatePrepHrs($allocation->getItem()));
+                $allocation->setAssessmentHrs($allocation->calculateAssessmentHrs($allocation->getItem()));
             }
 
             foreach ($originalAllocations as $allocation) {
@@ -132,6 +136,73 @@ class StaffController extends Controller
         ));
 
     }
+
+    /**
+     * Displays a form to show an existing Staff entity.
+     *
+     * @param Request $request Staff $staff
+     * @Route("/{id}/allocations", name="allocations_staff")
+     * @Method({"GET", "POST"})
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+
+    public function allocationsAction(Request $request, Staff $staff )
+    {
+        $em = $this->getDoctrine()->getManager();
+        $allocations = $em->getRepository('AppBundle:Allocation')
+            ->findAllocationsForStaffByCategory($staff, 2);
+
+        dump($allocations);
+
+        return $this->render(':staff:allocations.html.twig', array(
+           'allocations'=>$allocations,
+        ));
+
+    }
+
+
+    public function calculateTotals(Item $item)
+    {
+        $totalprepHrs = 0;
+        $totalassessmentHrs = 0;
+        $totalAllocatedHrs = 0;
+        $prepHrsBalance =0;
+        $assessmentBalance=0;
+        $contactBalance=0;
+
+        $module = $item->getModule();
+        if (is_object($module))
+        {
+
+            $modulePrepHrs = $module->getPreparationHrs();
+            $moduleAssessmentHrs = $module->getAssessmentHrs();
+            $moduleContactHrs = $module->getContactHrs();
+
+            foreach ($item->getAllocations() as $allocation) {
+                $totalprepHrs +=(float)$allocation->calculatePrepHrs($item);
+                $totalassessmentHrs +=(float)$allocation->calculateAssessmentHrs($item);
+                $totalAllocatedHrs +=(float)$allocation->getAllocatedHrs();
+            }
+
+            $prepHrsBalance = (float)$modulePrepHrs - (float)$totalprepHrs;
+            $assessmentBalance = (float)$moduleAssessmentHrs - (float)$totalassessmentHrs;
+            $contactBalance = (float)$moduleContactHrs - (float)$totalAllocatedHrs;
+
+        }
+
+        return array (
+            'totalPrepHrs'=> $totalprepHrs,
+            'totalAssessmentHrs' =>$totalassessmentHrs,
+            'totalAllocatedHrs' =>$totalAllocatedHrs,
+            'prepHrsBalance' => $prepHrsBalance,
+            'assessmentHrsBalance' =>$assessmentBalance,
+            'contactHrsBalance' =>$contactBalance,
+        );
+    }
+
+
+
+
 
     /**
      * Deletes a staff entity.

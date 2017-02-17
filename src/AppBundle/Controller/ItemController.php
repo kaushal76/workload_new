@@ -108,12 +108,15 @@ class ItemController extends Controller
             $originalAllocations->add($allocation);
         }
 
+        $total = $this->calculateTotals($item);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
             foreach ($item->getAllocations() as $allocation) {
                 $allocation->setItem($item);
+                $allocation->setprepHrs($allocation->calculatePrepHrs($item));
+                $allocation->setAssessmentHrs($allocation->calculateAssessmentHrs($item));
             }
 
             foreach ($originalAllocations as $allocation) {
@@ -129,8 +132,48 @@ class ItemController extends Controller
         return $this->render('item/show.html.twig', array(
             'item' => $item,
             'form' => $form->createView(),
+            'total' => $total,
         ));
 
+    }
+
+    public function calculateTotals(Item $item)
+    {
+        $totalprepHrs = 0;
+        $totalassessmentHrs = 0;
+        $totalAllocatedHrs = 0;
+        $prepHrsBalance =0;
+        $assessmentBalance=0;
+        $contactBalance=0;
+
+        $module = $item->getModule();
+        if (is_object($module))
+        {
+
+            $modulePrepHrs = $module->getPreparationHrs();
+            $moduleAssessmentHrs = $module->getAssessmentHrs();
+            $moduleContactHrs = $module->getContactHrs();
+
+            foreach ($item->getAllocations() as $allocation) {
+                $totalprepHrs +=(float)$allocation->calculatePrepHrs($item);
+                $totalassessmentHrs +=(float)$allocation->calculateAssessmentHrs($item);
+                $totalAllocatedHrs +=(float)$allocation->getAllocatedHrs();
+            }
+
+            $prepHrsBalance = (float)$modulePrepHrs - (float)$totalprepHrs;
+            $assessmentBalance = (float)$moduleAssessmentHrs - (float)$totalassessmentHrs;
+            $contactBalance = (float)$moduleContactHrs - (float)$totalAllocatedHrs;
+
+        }
+
+        return array (
+            'totalPrepHrs'=> $totalprepHrs,
+            'totalAssessmentHrs' =>$totalassessmentHrs,
+            'totalAllocatedHrs' =>$totalAllocatedHrs,
+            'prepHrsBalance' => $prepHrsBalance,
+            'assessmentHrsBalance' =>$assessmentBalance,
+            'contactHrsBalance' =>$contactBalance,
+        );
     }
 
     /**

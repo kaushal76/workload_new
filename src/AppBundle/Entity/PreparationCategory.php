@@ -33,11 +33,16 @@ class PreparationCategory {
     protected $name;
 
     /**
-     * @var string
-     * @ORM\Column(type="string")
+     * @var
+     * @ORM\Column(type="decimal", precision=19, scale=2)
      */
     protected $code;
 
+    /**
+     * @var float
+     * @ORM\Column(type="float")
+     */
+    protected $studioPrepHrs;
 
     /**
      * PreparationCategory constructor.
@@ -47,6 +52,23 @@ class PreparationCategory {
     {
         $this->modules = new ArrayCollection();
     }
+
+    /**
+     * @return float
+     */
+    public function getStudioPrepHrs()
+    {
+        return $this->studioPrepHrs;
+    }
+
+    /**
+     * @param float $studioPrepHrs
+     */
+    public function setStudioPrepHrs($studioPrepHrs)
+    {
+        $this->studioPrepHrs = $studioPrepHrs;
+    }
+
 
     /**
      * @return mixed
@@ -81,8 +103,7 @@ class PreparationCategory {
     public function addModule(Module $module)
     {
 
-        $module->setModuleCategory($this);
-
+        $module->setPreparationCategory($this);
         if (!$this->getModules()->contains($module)) {
             $this->modules->add($module);
         }
@@ -104,7 +125,7 @@ class PreparationCategory {
      * @return string
      */
     public function __toString() {
-        return $this->code.' '.$this->name;
+        return $this->name;
     }
 
     /**
@@ -116,7 +137,7 @@ class PreparationCategory {
     }
 
     /**
-     * @param string $code
+     * @param mixed $code
      */
     public function setCode($code)
     {
@@ -132,7 +153,7 @@ class PreparationCategory {
     }
 
     /**
-     * @return string
+     * @return mixed
      */
     public function getCode()
     {

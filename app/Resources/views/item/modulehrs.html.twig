@@ -1,0 +1,91 @@
+<div class="panel-text">
+    <h3>Module provisions</h3>
+</div>
+<table class="table table-striped">
+    <tr>
+        <th>
+            Contact Hours
+        </th>
+        <td>
+            {{ item.module.contactHrs}}
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Preperation hours
+        </th>
+        <td>
+            {{ item.module.preparationHrs}}
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Assessment hours
+        </th>
+        <td>
+            {{ item.module.assessmentHrs}}
+        </td>
+    </tr>
+</table>
+<div class="panel-text">
+    <h3>Current allocations</h3>
+</div>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>
+            Staff name
+        </th>
+        <th>
+            Contact Hours
+        </th>
+        <th>
+            Preperation hours
+        </th>
+        <th>
+            Assessment hours
+        </th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for allocation in item.allocations %}
+    <tr>
+        <td>
+            {{ allocation.staff.title }}{{ ' ' }}{{ allocation.staff.firstname }}{{ ' ' }}{{ allocation.staff.surname }}
+
+        </td>
+
+        <td>
+            {{ allocation.allocatedHrs }}
+
+        </td>
+        <td>
+            {{ allocation.prepHrs }}
+
+        </td>
+        <td>
+            {{ allocation.assessmentHrs }}
+
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr class="sum">
+        <td>
+            Total
+        </td>
+        <td>
+            {{ total.totalAllocatedHrs }}
+        </td>
+        <td>
+            {{ total.totalPrepHrs }}
+        </td>
+        <td>
+            {{ total.totalAssessmentHrs }}
+        </td>
+
+    </tr>
+    </tfoot>
+</table>

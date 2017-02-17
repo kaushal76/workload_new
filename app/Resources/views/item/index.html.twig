@@ -13,11 +13,11 @@
         <div class="col-md-8">
             <div class="panel panel-default">
                 <div class="panel-heading"><h1>Items</h1></div>
-                <div id="tablepanel" class="panel-body">
+                <div class="panel-body tablepanel">
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th width="5%">ID</th>
+                            <th width = 20%>Code</th>
                             <th>Name</th>
                             <th>Category</th>
                             <th width="20%">Actions</th>
@@ -26,9 +26,7 @@
                         <tbody>
                         {% for item in items %}
                             <tr>
-                                <td>
-                                    <a href="{{ path('item_show', { 'id': item.id }) }}">{{ item.id }}</a>
-                                </td>
+                                <td>{{ item.code }}</td>
                                 <td>{{ item.name }}</td>
                                 <td>{{ item.category }}</td>
                                 <td>

@@ -10,7 +10,9 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @package AppBundle\Entity
  * @ORM\Entity
  * @ORM\Table(name="staff")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\StaffRepository")
  */
+
 class Staff {
 
     /**
@@ -164,5 +166,4 @@ class Staff {
     public function __toString() {
         return $this->title.' '.$this->firstname.' '.$this->surname;
     }
-
 }

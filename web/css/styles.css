@@ -19,6 +19,19 @@ body {
     display: none;
 }
 
-#tablepanel {
+.tablepanel {
     padding: 0;
+}
+
+.panel-text {
+    padding: 10px;
+}
+
+.sum{
+    border-top-color: black;
+    border-top: solid;
+    border-bottom: double thick;
+    border-bottom-color: black;
+    text-decoration: solid;
+    font-weight: bold;
 }

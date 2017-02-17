@@ -24,6 +24,7 @@ class ModuleType extends AbstractType
             ->add('assessmentHrs')
             ->add('contactHrs')
             ->add('studioRatio')
+            ->add('groupFactor')
             ->add('course')
             ->add('moduleCategory')
             ->add('groupFilter')

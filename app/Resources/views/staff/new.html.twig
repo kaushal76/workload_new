@@ -1,21 +1,32 @@
-{% extends '::base.html.twig' %}
-{% block body %}
-{{ form_start(form) }}
-    {{ form_row(form.title) }}
-    {{ form_row(form.firstname) }}
-    {{ form_row(form.surname) }}
-    <ul class="allocations"
-        data-prototype="
-            {% filter escape %}
-              {{ include(':allocations:prototype.html.twig', { 'form': form.allocations.vars.prototype }) }}
-            {% endfilter %}
-        ">
-    </ul>
-    <input type="submit" value="Edit" />
-    {{ form_widget(form._token) }}
-{{ form_end(form, {'render_rest': false}) }}
-{% endblock %}
+{% extends 'base.html.twig' %}
 
-{% block javascripts %}
-<script src="{{ asset('javascript/allocations.js') }}"></script>
+{% block body %}
+
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h1>Staff</h1></div>
+            <div class="panel-body">
+            </div>
+        </div>
+        <div>
+            <a class="btn btn-primary" href="{{ path('index_staff') }}">Back to the List</a>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h1>Create a staff record </h1></div>
+            <div class="panel-body">
+                <fieldset>
+                    <legend>Add</legend>
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <div class="text-right">
+                        <input class="btn btn-primary" type="submit" value="Create" />
+                    </div>
+                    {{ form_end(form, {'render_rest': false}) }}
+                </fieldset>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

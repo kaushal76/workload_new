@@ -14,6 +14,7 @@ class ItemType extends AbstractType
     {
         $builder->add('name');
         $builder->add('category');
+        $builder->add('code');
         $builder->add('allocations', CollectionType::class, array(
             'entry_type'   => AllocationType::class,
             'allow_add'   => true,

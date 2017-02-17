@@ -13,7 +13,7 @@ class AssessmentCategoryType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('code')        ;
+        $builder->add('name')->add('code')->add('studioAssessmentHrs')    ;
     }
     
     /**
