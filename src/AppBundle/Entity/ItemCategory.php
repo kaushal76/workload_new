@@ -39,6 +39,7 @@ class ItemCategory {
     protected $code;
 
 
+
     /**
      * ItemCategory constructor.
      */

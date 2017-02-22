@@ -6,8 +6,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-class phdStudentType extends AbstractType
+class PhdStudentType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -18,12 +19,18 @@ class phdStudentType extends AbstractType
             ->add('name')
             ->add('totalHrs')
             ->add('item');
-
         $builder->add('mode', ChoiceType::class, array(
             'choices'  => array(
                 'Full time' => 1,
                 'Part time' => 2,
             ),
+        ));
+
+        $builder->add('allocationsForPhDStudent', CollectionType::class, array(
+            'entry_type'   => AlloactionsForPhdStudentType::class,
+            'allow_add'   => true,
+            'allow_delete' => true,
+            'by_reference' => false,
         ));
     }
     
@@ -33,7 +40,7 @@ class phdStudentType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\phdStudent'
+            'data_class' => 'AppBundle\Entity\PhdStudent'
         ));
     }
 

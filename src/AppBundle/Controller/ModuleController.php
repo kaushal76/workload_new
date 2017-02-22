@@ -3,9 +3,12 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Module;
+use AppBundle\Form\ModuleType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Module controller.
@@ -45,6 +48,16 @@ class ModuleController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            $assessmentHrs = $module->calculateAssessmentHrs();
+            $preparationHrs = $module->calculatePreparationHrs();
+            $contactHrs = $module->calculateContactHrs();
+
+            $module->setAssessmentHrs($assessmentHrs);
+            $module->setPreparationHrs($preparationHrs);
+            $module->setContactHrs($contactHrs);
+
+
             $em->persist($module);
             $em->flush($module);
 
@@ -86,6 +99,23 @@ class ModuleController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+
+            $assessmentHrs = $module->calculateAssessmentHrs();
+            $preparationHrs = $module->calculatePreparationHrs();
+            $contactHrs = $module->calculateContactHrs();
+
+            $module->setAssessmentHrs($assessmentHrs);
+            $module->setPreparationHrs($preparationHrs);
+            $module->setContactHrs($contactHrs);
+
+            foreach ($module->getAllocationsForModule() as $allocationformodule) {
+
+                $allocationformodule->setModule($module);
+                $allocationformodule->setprepHrs($allocationformodule->calculatePrepHrs($module));
+                $allocationformodule->setAssessmentHrs($allocationformodule->calculateAssessmentHrs($module));
+            }
+
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('module_edit', array('id' => $module->getId()));
@@ -132,5 +162,59 @@ class ModuleController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    /**
+     * Displays a form to show an existing Module entity.
+     *
+     * @param Request $request Module $module
+     * @Route("/{id}/allocate", name="module_allocate")
+     * @Method({"GET", "POST"})
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+
+    public function allocationsAction(Request $request, Module $module)
+    {
+
+        $form = $this->createForm('AppBundle\Form\ModuleType', $module);
+        $em = $this->getDoctrine()->getManager();
+        $moduleObj = $em->getRepository('AppBundle:Module')->find($module);
+
+        $originalAllocationsforModule = new ArrayCollection();
+
+        foreach ($moduleObj->getAllocationsForModule() as $allocationformodule) {
+            $originalAllocationsforModule->add($allocationformodule);
+        }
+
+        //$total = $this->calculateTotals($item);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+
+            foreach ($module->getAllocationsForModule() as $allocationformodule) {
+
+                $allocationformodule->setModule($module);
+                $allocationformodule->setprepHrs($allocationformodule->calculatePrepHrs($module));
+                $allocationformodule->setAssessmentHrs($allocationformodule->calculateAssessmentHrs($module));
+            }
+
+            foreach ($originalAllocationsforModule as $allocationformodule) {
+                if (false === $module->getAllocationsForModule()->contains($allocationformodule)) {
+                    $em->remove($allocationformodule);
+                }
+            }
+            $em->persist($module);
+            $em->flush();
+            return $this->redirectToRoute('module_allocate', array('id' => $module->getId()));
+
+        }
+
+        return $this->render('module/allocate.html.twig', array(
+            'module' => $module,
+            'form' => $form->createView(),
+        ));
+
     }
 }

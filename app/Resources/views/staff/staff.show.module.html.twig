@@ -1,11 +1,11 @@
 <div class="panel-text">
-    <h3>Current allocations</h3>
+    <h3>Standard modules</h3>
 </div>
 <table class="table table-striped">
     <thead>
     <tr>
         <th>
-            Item name
+            Module name
         </th>
         <th>
             Contact Hours
@@ -20,10 +20,10 @@
     </tr>
     </thead>
     <tbody>
-    {% for allocation in staff.allocations %}
+    {% for allocation in staff.allocationsForModule %}
     <tr>
         <td>
-            {{ allocation.item.name }}
+            {{ allocation.module.name }}
 
         </td>
 

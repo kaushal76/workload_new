@@ -16,7 +16,7 @@ class AlloactionRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery('
-          SELECT p,r,s
+          SELECT p
           FROM AppBundle:Allocation p
           LEFT JOIN AppBundle:Item r WITH p.item = r.id
           LEFT JOIN AppBundle:Staff s WITH p.staff = s.id

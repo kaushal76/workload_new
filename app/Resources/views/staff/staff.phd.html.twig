@@ -1,0 +1,60 @@
+{% if PhdAllocations %}
+<div class="panel-text">
+    <h3>PhD Students</h3>
+</div>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th width="50%">
+            PhD Student
+        </th>
+        <th>
+            Contact Hours
+        </th>
+        <th>
+            Support Hours
+        </th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for allocation in PhdAllocations %}
+    <tr>
+        <td width="50%">
+            {{ allocation.phdStudent.name }}
+
+        </td>
+
+        <td>
+            {{ allocation.allocatedHrs }}
+
+        </td>
+        <td>
+            {{ allocation.supportHrs }}
+
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tfoot>
+    {% if PhdAllocationTotals %}
+        <tr class="sum">
+            <td width="50%">
+                Total
+
+            </td>
+
+            <td>
+                {{ PhdAllocationTotals.totalAllocatedHrs }}
+
+            </td>
+            <td>
+                {{ PhdAllocationTotals.totalSupportHrs }}
+
+            </td>
+        </tr>
+    {% endif %}
+    </tfoot>
+</table>
+{% endif %}

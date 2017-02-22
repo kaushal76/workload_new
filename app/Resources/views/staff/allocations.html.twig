@@ -2,71 +2,30 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="panel panel-default ">
                 <div class="panel-heading">
-                    <h3>{{ staff.title}}{{' '}}{{ staff.firstname}}{{' '}}{{ staff.surname }}</h3>
+                    <h3>
+                        Module allocations
+                    </h3>
                 </div>
                 <div class="panel-body tablepanel">
-                    {% if staff.allocations %}
-                        {% include ':staff:staff.modulehrs.html.twig' %}
-                    {% endif %}
+                    {% include ':staff:staff.module.html.twig' %}
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        {{ form_start(form) }}
+
         <div class="col-md-6">
             <div class="panel panel-default">
-                <div class="panel-heading"><h3>Allocations</h3></div>
+                <div class="panel-heading"><h3>PhD Students</h3></div>
                 <div class="panel-body tablepanel">
-                    <table class="table table-striped allocations"
-                           data-prototype="
-                                {% filter escape %}
-                                    {{ include(':allocations:prototype.html.twig', { 'form': form.allocations.vars.prototype }) }}
-                                {% endfilter %}
-                    ">
-                        <thead>
-                        <tr>
-                            <th>
-                                Item
-                            </th>
-                            <th>
-                                Allocated hours
-                            </th>
-                            <th>
-                                Actions
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for allocation in form.allocations %}
-                            <tr class="rowbody">
-                                <td >
-                                    {{ form_widget(allocation.item) }}
-                                </td >
-                                <td width="20%">
-                                    {{ form_widget(allocation.allocatedHrs) }}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                        {{ form_widget(form._token) }}
-                        <div class="hidden">
-                            {{ form_widget(form.title) }}
-                            {{ form_widget(form.firstname) }}
-                            {{ form_widget(form.surname) }}
-                        </div>
-
+                    {% include ':staff:staff.phd.html.twig' %}
                 </div>
             </div>
             <div>
                 <button class="btn btn-primary" name="submit" type="submit">Save</button>
             </div>
         </div>
-        {{ form_end(form, {'render_rest': false}) }}
     </div>
 {% endblock %}
 {% block javascripts %}

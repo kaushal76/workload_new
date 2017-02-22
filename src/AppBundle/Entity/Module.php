@@ -3,12 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class Module
  * @package AppBundle\Entity
  * @ORM\Entity
  * @ORM\Table(name="module")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ModuleRepository")
  */
 class Module {
 
@@ -86,15 +88,15 @@ class Module {
      */
     protected $preparationCategory;
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal", precision=10, scale=2)
      */
     protected $preparationHrs;
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal", precision=10, scale=2)
      */
     protected $assessmentHrs;
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal", precision=10, scale=2)
      */
     protected $contactHrs;
     /**
@@ -125,12 +127,87 @@ class Module {
     protected $internalModerator;
 
     /**
+     * @ORM\Column(type="decimal", precision=10, scale=2)
+     */
+    protected $moduleLeaderHrs;
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=2)
+     */
+    protected $internalModeratorHrs;
+
+    /**
+     * @return mixed
+     */
+    public function getModuleLeaderHrs()
+    {
+        return $this->moduleLeaderHrs;
+    }
+
+    /**
+     * @param mixed $moduleLeaderHrs
+     */
+    public function setModuleLeaderHrs($moduleLeaderHrs)
+    {
+        $this->moduleLeaderHrs = $moduleLeaderHrs;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInternalModeratorHrs()
+    {
+        return $this->internalModeratorHrs;
+    }
+
+    /**
+     * @param mixed $internalModeratorHrs
+     */
+    public function setInternalModeratorHrs($internalModeratorHrs)
+    {
+        $this->internalModeratorHrs = $internalModeratorHrs;
+    }
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\AllocationsForModule", mappedBy="module", cascade={"persist", "remove"})
+     */
+
+    protected $allocationsForModule;
+
+    /**
+     * Module constructor.
+     */
+
+    public function __construct()
+    {
+        $this->allocationsForModule = new ArrayCollection();
+    }
+
+    /**
      * @return mixed
      */
     public function getId()
     {
         return $this->id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAllocationsForModule()
+    {
+        return $this->allocationsForModule;
+    }
+
+    /**
+     * @param mixed $allocationsformodule
+     */
+    public function setAllocationsForModule($allocationsformodule)
+    {
+        $this->allocationsForModule = $allocationsformodule;
+    }
+
+
 
     /**
      * @return mixed
@@ -340,14 +417,20 @@ class Module {
         $this->preparationCategory = $preparationCategory;
     }
 
-
     public function getPreparationHrs()
+    {
+        return $this->preparationHrs;
+    }
+
+
+
+    public function calculatePreparationHrs()
     {
         $credit = $this->getCredit();
         $mode = $this->getModuleCategory();
         $studio = $this->getStudioRatio();
         $preparationCategory = $this->getPreparationCategory();
-        $studioPrepHrs = $preparationCategory->getstudioPrepHrs();
+        $studioPrepHrs = $preparationCategory->getStudioPrepHrs();
 
         $preparationHrs = 0;
 
@@ -368,6 +451,35 @@ class Module {
     }
 
     /**
+     * Add AllocationsForModule
+     *
+     * @param AllocationsForModule $allocationsForModule
+     *
+     * @return Module
+     */
+    public function addAllocationsForModule(AllocationsForModule $allocationsForModule)
+    {
+        $allocationsForModule->setModule($this);
+
+        if (!$this->getAllocationsForModule()->contains($allocationsForModule)) {
+            $this->allocationsForModule->add($allocationsForModule);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove allocationsformodule
+     *
+     * @param AllocationsForModule $allocationsformodule
+     */
+    public function removeAllocationsForModule(AllocationsForModule $allocationsForModule)
+    {
+        $this->allocationsForModule->removeElement($allocationsForModule);
+    }
+
+
+    /**
      * @param mixed $preparationHrs
      */
     public function setPreparationHrs($preparationHrs)
@@ -375,15 +487,32 @@ class Module {
         $this->preparationHrs = $preparationHrs;
     }
 
-
+    /**
+     * @return mixed
+     */
     public function getAssessmentHrs()
+    {
+        return $this->assessmentHrs;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContactHrs()
+    {
+        return $this->contactHrs;
+    }
+
+
+
+    public function calculateAssessmentHrs()
     {
         $credit = $this->getCredit();
         $mode = $this->getModuleCategory();
         $studentNumbers = $this->getStudentNos();
         $studio = $this->getStudioRatio();
         $assessmentCategory = $this->getAssessmentCategory();
-        $studioAssessmentHrs = $assessmentCategory->getstudioAssessmentHrs();
+        $studioAssessmentHrs = $assessmentCategory->getStudioAssessmentHrs();
 
         $assessmentHrs = 0;
 
@@ -400,6 +529,11 @@ class Module {
             $assessmentHrs = ((int)$credit * (float)$assessmentCategory->getCode() * (1-((float)$studio)) * (float)$studentNumbers)+((float)$studioAssessmentHrs * (float)$studio * (float)$credit * (float)$studentNumbers);
         }
 
+        if ($mode->getCode() == 4) {
+
+            $assessmentHrs = (float)$credit * (float)$assessmentCategory->getCode() * (float)$studentNumbers;
+        }
+
         return $assessmentHrs;
     }
 
@@ -414,7 +548,7 @@ class Module {
     /**
      * @return mixed
      */
-    public function getContactHrs()
+    public function calculateContactHrs()
     {
         $credit = $this->getCredit();
         $mode = $this->getModuleCategory();
@@ -440,12 +574,12 @@ class Module {
 
         if ($mode->getCode() == 4) {
 
-            $contactHrs = (float)$contactHrsfactor * $studentNumbers;
+            $contactHrs = (float)$contactHrsfactor * (float)$studentNumbers;
         }
 
         if ($mode->getCode() == 5) {
 
-            $contactHrs = (float)$contactHrsfactor * $studentNumbers;
+            $contactHrs = (float)$contactHrsfactor;
         }
 
         return $contactHrs;
@@ -507,6 +641,11 @@ class Module {
         $this->internalModerator = $internalModerator;
     }
 
-
+    /**
+     * @return string
+     */
+    public function __toString() {
+        return $this->name;
+    }
 
 }

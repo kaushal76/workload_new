@@ -16,8 +16,21 @@ class StaffType extends AbstractType
         $builder->add('title');
         $builder->add('firstname');
         $builder->add('surname');
+        $builder->add('fte');
         $builder->add('allocations', CollectionType::class, array(
             'entry_type'   => AllocationType::class,
+            'allow_add'   => true,
+            'allow_delete' => true,
+            'by_reference' => false,
+        ));
+        $builder->add('allocationsForModule', CollectionType::class, array(
+            'entry_type'   => AllocationsForModuleType::class,
+            'allow_add'   => true,
+            'allow_delete' => true,
+            'by_reference' => false,
+        ));
+        $builder->add('allocationsForPhdStudent', CollectionType::class, array(
+            'entry_type'   => AlloactionsForPhdStudentType::class,
             'allow_add'   => true,
             'allow_delete' => true,
             'by_reference' => false,

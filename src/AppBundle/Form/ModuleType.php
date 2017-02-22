@@ -2,9 +2,11 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Module;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class ModuleType extends AbstractType
 {
@@ -31,7 +33,15 @@ class ModuleType extends AbstractType
             ->add('assessmentCategory')
             ->add('preparationCategory')
             ->add('moduleLeader')
-            ->add('internalModerator');
+            ->add('internalModerator')
+            ->add('internalModeratorHrs')
+            ->add('moduleLeaderHrs');
+        $builder->add('allocationsForModule', CollectionType::class, array(
+                'entry_type'   => AllocationsForModuleType::class,
+                'allow_add'   => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+        ));
     }
     
     /**
@@ -40,16 +50,8 @@ class ModuleType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Module'
+            'data_class' => Module::class,
         ));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'appbundle_module';
     }
 
 

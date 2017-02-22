@@ -7,7 +7,9 @@
             Contact Hours
         </th>
         <td>
+            <p>
             {{ item.module.contactHrs}}
+            </p>
         </td>
     </tr>
     <tr>
@@ -67,6 +69,7 @@
         <td>
             {{ allocation.assessmentHrs }}
 
+
         </td>
     </tr>
     {% endfor %}
@@ -78,12 +81,16 @@
         </td>
         <td>
             {{ total.totalAllocatedHrs }}
+            {% if ((item.module.contactHrs) < (total.totalAllocatedHrs)) %}
+                <span class="label label-danger">Over allocated</span>
+            {% endif %}
         </td>
         <td>
             {{ total.totalPrepHrs }}
         </td>
         <td>
             {{ total.totalAssessmentHrs }}
+
         </td>
 
     </tr>

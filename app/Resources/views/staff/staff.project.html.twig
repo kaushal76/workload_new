@@ -1,0 +1,43 @@
+<div class="panel-text">
+    <h3>Current allocations</h3>
+</div>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>
+            Module name
+        </th>
+        <th>
+            Contact Hours
+        </th>
+        <th>
+            Assessment hours
+        </th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for allocation in staff.allocationsForModule %}
+    <tr>
+        <td>
+            {{ allocation.module.name }}
+
+        </td>
+
+        <td>
+            {{ allocation.allocatedHrs }}
+
+        </td>
+        <td>
+            {{ allocation.prepHrs }}
+
+        </td>
+        <td>
+            {{ allocation.assessmentHrs }}
+
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+
+</table>

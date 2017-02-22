@@ -1,0 +1,40 @@
+<div class="panel-text">
+    <h3>Current allocations</h3>
+</div>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>
+            Staff name
+        </th>
+        <th>
+            Contact Hours
+        </th>
+        <th>
+            Support Hours
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for allocation in phdStudent.allocationsForPhDStudent %}
+    <tr>
+        <td width="50%">
+            {{ allocation.staff.title }}{{ ' ' }}{{ allocation.staff.firstname }}{{ ' ' }}{{ allocation.staff.surname }}
+
+        </td>
+
+        <td>
+            {{ allocation.allocatedHrs }}
+
+        </td>
+        <td>
+            {{ allocation.supportHrs }}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr class="sum">
+    </tr>
+    </tfoot>
+</table>

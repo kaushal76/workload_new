@@ -5,11 +5,11 @@
         <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3>{{ item.name}}</h3>
+                    <h3>{{ phdStudent.name}}</h3>
                 </div>
                 <div class="panel-body tablepanel">
-                    {% if item.module %}
-                        {% include ':item:modulehrs.html.twig' %}
+                    {% if phdStudent.allocationsForPhDStudent %}
+                        {% include ':phdstudent:allocated.html.twig' %}
                     {% endif %}
                 </div>
             </div>
@@ -22,7 +22,7 @@
                     <table class="table table-striped allocations"
                            data-prototype="
                                 {% filter escape %}
-                                    {{ include(':allocations:prototype.item.html.twig', { 'form': form.allocations.vars.prototype }) }}
+                                    {{ include(':allocationsformodule:prototype.item.html.twig', { 'form': form.allocationsForPhDStudent.vars.prototype }) }}
                                 {% endfilter %}
                     ">
                         <thead>
@@ -39,27 +39,27 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for allocation in form.allocations %}
+
+                        {% for allocationforphdstudent in form.allocationsForPhDStudent %}
                             <tr class="rowbody">
                                 <td >
-                                    {{ form_widget(allocation.staff) }}
+                                    {{ form_widget(allocationforphdstudent.staff) }}
                                 </td >
                                 <td width="20%">
-                                    {{ form_widget(allocation.allocatedHrs) }}
-                                    {{ form_widget(allocation.prepHrs) }}
-                                    {{ form_widget(allocation.assessmentHrs) }}
+                                    {{ form_widget(allocationforphdstudent.allocatedHrs) }}
+                                    {{ form_widget(allocationforphdstudent.supportHrs) }}
                                 </td>
+
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
                         {{ form_widget(form._token) }}
                         <div class="hidden">
+                            {{ form_widget(form.totalHrs) }}
                             {{ form_widget(form.name) }}
-                            {{ form_widget(form.category) }}
-                            {{ form_widget(form.code) }}
+                            {{ form_widget(form.mode) }}
                         </div>
-
                 </div>
             </div>
             <div>

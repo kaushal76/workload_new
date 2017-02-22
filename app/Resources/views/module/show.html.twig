@@ -3,12 +3,12 @@
 {% block body %}
 
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-8">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h1>Module details</h1>
+                    <h3>Allocations</h3>
                 </div>
-                <div class="panel-body"></div>
+                <div class="panel-body tablepanel"></div>
             </div>
             <div class="btn-group">
                 {{ form_start(delete_form) }}
@@ -18,20 +18,16 @@
                 {{ form_end(delete_form) }}
             </div>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h1>Details</h1>
                 </div>
-                <div id= "tablepanel" class="panel-body">
+                <div class="panel-body tablepanel">
                     <table class="table table-striped">
                         <tbody>
                         <tr>
-                            <th width="30%">ID</th>
-                            <td>{{ module.id }}</td>
-                        </tr>
-                        <tr>
-                            <th>Code</th>
+                            <th width="30%">Code</th>
                             <td>{{ module.code }}</td>
                         </tr>
                         <tr>
@@ -71,12 +67,8 @@
                             <td>{{ module.studioRatio }}</td>
                         </tr>
                         <tr>
-                            <th>Item</th>
-                            <td>{{ module.item }}</td>
-                        </tr>
-                        <tr>
                             <th>Module Category</th>
-                            <td>{{ module.moduleCategory.code }}</td>
+                            <td>{{ module.moduleCategory.name }}</td>
                         </tr>
                         </tbody>
                     </table>

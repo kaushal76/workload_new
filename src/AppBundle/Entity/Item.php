@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity
  * @ORM\Table(name = "items")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ItemRepository")
  */
 
 class Item {
@@ -48,9 +49,9 @@ class Item {
     /**
      *
      * One optional phdstudent one item .
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\phdStudent", mappedBy="item")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\PhdStudent", mappedBy="item")
      */
-    protected $phdstudent;
+    protected $PhdStudent;
 
     /**
      *
@@ -91,7 +92,7 @@ class Item {
      */
     public function getPhdstudent()
     {
-        return $this->phdstudent;
+        return $this->PhdStudent;
     }
 
     /**
@@ -99,7 +100,7 @@ class Item {
      */
     public function setPhdstudent($phdstudent)
     {
-        $this->phdstudent = $phdstudent;
+        $this->phdStudent = $phdstudent;
     }
 
 

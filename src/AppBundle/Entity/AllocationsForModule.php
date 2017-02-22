@@ -5,20 +5,20 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Class Allocation
+ * Class AllocationsForModule
  * @package AppBundle\Entity
  * @ORM\Entity
- * @ORM\Table(name="allocations")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\AlloactionRepository")
+ * @ORM\Table(name="allocations_for_module")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\AlloactionsForModuleRepository")
  */
-class Allocation {
+class AllocationsForModule {
 
 
     /**
      *
      * @var
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Staff", inversedBy="allocations")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Staff", inversedBy="allocationsForModule")
      * @ORM\JoinColumn(name="staff", referencedColumnName="id")
      */
     protected $staff;
@@ -27,30 +27,47 @@ class Allocation {
      *
      * @var
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Item", inversedBy="allocations")
-     * @ORM\JoinColumn(name="item", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Module", inversedBy="allocationsForModule")
+     * @ORM\JoinColumn(name="module", referencedColumnName="id")
      */
-    protected $item;
+    protected $module;
 
     /**
      * @var float
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="decimal", precision=10, scale=2)
      */
     protected $allocatedHrs;
 
     /**
      * @var float
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="decimal", precision=10, scale=2)
      */
 
     protected $prepHrs;
 
     /**
      * @var float
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="decimal", precision=10, scale=2)
      */
 
     protected $assessmentHrs;
+
+    /**
+     * @return mixed
+     */
+    public function getModule()
+    {
+        return $this->module;
+    }
+
+    /**
+     * @param mixed $module
+     */
+    public function setModule($module)
+    {
+        $this->module = $module;
+    }
+
 
     /**
      * @return float
@@ -93,13 +110,6 @@ class Allocation {
         return $this->staff;
     }
 
-    /**
-     * @return Item
-     */
-    public function getItem()
-    {
-        return $this->item;
-    }
 
     /**
      * @return int
@@ -118,14 +128,6 @@ class Allocation {
     }
 
     /**
-     * @param int
-     */
-    public function setItem($item)
-    {
-        $this->item = $item;
-    }
-
-    /**
      * @param int $allocatedHrs
      */
     public function setAllocatedHrs($allocatedHrs)
@@ -134,16 +136,15 @@ class Allocation {
     }
 
     /*
-     * @return
-     */
-    public function calculatePrepHrs(Item $item)
+   * @return
+   */
+    public function calculatePrepHrs(Module $module)
     {
-        $module = $item->getModule();
         $prepHrs = 0;
         if (is_object($module))
         {
-            $moduleContactHrs = $module->calculateContactHrs();
-            $modulePrepHrs = $module->calculatePreparationHrs();
+            $moduleContactHrs = $module->getContactHrs();
+            $modulePrepHrs = $module->getPreparationHrs();
             $allocatedHrs = $this->getAllocatedHrs();
 
             $prepHrs = (float)$allocatedHrs * (float)$modulePrepHrs/(float)$moduleContactHrs;
@@ -154,14 +155,13 @@ class Allocation {
     /*
      * @return
      */
-    public function calculateAssessmentHrs(Item $item)
+    public function calculateAssessmentHrs(Module $module)
     {
-        $module = $item->getModule();
         $AssessmentHrs = 0;
         if (is_object($module))
         {
-            $moduleContactHrs = $module->calculateContactHrs();
-            $moduleAssHrs = $module->calculateAssessmentHrs();
+            $moduleContactHrs = $module->getContactHrs();
+            $moduleAssHrs = $module->getAssessmentHrs();
             $allocatedHrs = $this->getAllocatedHrs();
 
             $AssessmentHrs= (float)$allocatedHrs * (float)$moduleAssHrs/(float)$moduleContactHrs;

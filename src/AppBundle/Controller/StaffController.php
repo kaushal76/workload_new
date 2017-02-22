@@ -100,17 +100,16 @@ class StaffController extends Controller
     public function showAction(Request $request, Staff $staff)
     {
 
-        $form = $this->createForm(StaffType::class, $staff);
+        //$form = $this->createForm(StaffType::class, $staff);
         $em = $this->getDoctrine()->getManager();
         $staffObj = $em->getRepository('AppBundle:Staff')->find($staff);
 
         $originalAllocations = new ArrayCollection();
 
+        /*
         foreach ($staffObj->getAllocations() as $allocation) {
             $originalAllocations->add($allocation);
         }
-
-
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -125,14 +124,16 @@ class StaffController extends Controller
                     $em->remove($allocation);
                 }
             }
+
             $em->persist($staff);
             $em->flush();
             return $this->redirectToRoute('show_staff', array('id' => $staff->getId()));
         }
+        */
 
         return $this->render('staff/show.html.twig', array(
             'staff' => $staff,
-            'form' => $form->createView(),
+            //'form' => $form->createView(),
         ));
 
     }
@@ -149,13 +150,67 @@ class StaffController extends Controller
     public function allocationsAction(Request $request, Staff $staff )
     {
         $em = $this->getDoctrine()->getManager();
-        $allocations = $em->getRepository('AppBundle:Allocation')
-            ->findAllocationsForStaffByCategory($staff, 2);
 
-        dump($allocations);
+        $standardModules = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findAllocationsForStaffByCategory($staff, 2);
+        $standardModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 2);
+        $studioModules = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findAllocationsForStaffByCategory($staff, 3);
+        $studioModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 3);
+        $mixedModules = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findAllocationsForStaffByCategory($staff, 4);
+        $mixedModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 4);
+        $projectModulesUG = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findAllocationsForStaffByCategory($staff, 5 );
+        $projectModulesUGTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 5);
+        $placementtModules = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findAllocationsForStaffByCategory($staff, 6 );
+        $placementtModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 5);
+        $PhdAllocations = $em->getRepository('AppBundle:AllocationsForPhdStudent')
+            ->findAllocationsForStaff($staff);
+        $PhdAllocationTotals = $em->getRepository('AppBundle:AllocationsForPhdStudent')
+            ->findTotals($staff);
+        $projectModulesPG = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findAllocationsForStaffByCategory($staff, 7 );
+        $projectModulesPGTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 7);
+
+        $moduleLeaderHrs = $em->getRepository('AppBundle:Module')
+            ->findModuleLeaderForStaff($staff);
+        $moduleLeaderHrsTotal = $em->getRepository('AppBundle:Module')
+            ->findModuleLeaderTotal($staff);
+
+        $internalModeratorHrs = $em->getRepository('AppBundle:Module')
+            ->findInternalModeratorForStaff($staff);
+        $internalModeratorHrsTotal = $em->getRepository('AppBundle:Module')
+            ->findinternalModeratorTotal($staff);
+
 
         return $this->render(':staff:allocations.html.twig', array(
-           'allocations'=>$allocations,
+           'standardModules'=>$standardModules,
+            'studioModules' => $studioModules,
+            'mixedModules' => $mixedModules,
+            'projectModulesUG' => $projectModulesUG,
+            'projectModulesPG' => $projectModulesPG,
+            'placementtModules' => $placementtModules,
+            'PhdAllocations'=> $PhdAllocations,
+            'standardModuleTotals' => $standardModuleTotals,
+            'studioModuleTotals' => $studioModuleTotals,
+            'mixedModuleTotals' => $mixedModuleTotals,
+            'projectModulesUGTotals' =>  $projectModulesUGTotals,
+            'placementtModuleTotals' => $placementtModuleTotals,
+            'PhdAllocationTotals' => $PhdAllocationTotals,
+            'projectModulesPGTotals' => $projectModulesPGTotals,
+            'moduleLeaderHrs' => $moduleLeaderHrs,
+            'internalModeratorHrs' => $internalModeratorHrs,
+            'moduleLeaderHrsTotal' =>$moduleLeaderHrsTotal,
+            'internalModeratorHrsTotal' => $internalModeratorHrsTotal,
+
         ));
 
     }

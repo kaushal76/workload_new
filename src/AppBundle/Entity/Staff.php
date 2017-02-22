@@ -29,6 +29,18 @@ class Staff {
     protected $allocations;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\AllocationsForModule", mappedBy="staff", cascade={"persist", "remove"})
+     */
+
+    protected $allocationsForModule;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\AllocationsForPhdStudent", mappedBy="staff", cascade={"persist", "remove"})
+     */
+
+    protected $allocationsForPhdStudent;
+
+    /**
      * @var string
      * @ORM\Column(type="string")
      */
@@ -47,13 +59,54 @@ class Staff {
     protected $title;
 
     /**
+     * @ORM\Column(type="decimal", precision=10, scale=2)
+     */
+    protected $fte;
+
+    /**
      * Staff constructor.
      */
 
     public function __construct()
     {
         $this->allocations = new ArrayCollection();
+        $this->allocationsForModule = new ArrayCollection();
+        $this->allocationsForPhdStudent = new ArrayCollection();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getFte()
+    {
+        return $this->fte;
+    }
+
+    /**
+     * @param mixed $fte
+     */
+    public function setFte($fte)
+    {
+        $this->fte = $fte;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAllocationsForPhdStudent()
+    {
+        return $this->allocationsForPhdStudent;
+    }
+
+    /**
+     * @param mixed $allocationsForPhdStudent
+     */
+    public function setAllocationsForPhdStudent($allocationsForPhdStudent)
+    {
+        $this->allocationsForPhdStudent = $allocationsForPhdStudent;
+    }
+
+
 
     /**
      * @return mixed
@@ -128,6 +181,21 @@ class Staff {
         $this->allocations = $allocations;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getAllocationsForModule()
+    {
+        return $this->allocationsForModule;
+    }
+
+    /**
+     * @param mixed $allocationsForModule
+     */
+    public function setAllocationsForModule($allocationsForModule)
+    {
+        $this->allocationsForModule = $allocationsForModule;
+    }
 
 
     /**
@@ -159,7 +227,66 @@ class Staff {
         $this->allocations->removeElement($allocations);
     }
 
+    /**
+     * Add AllocationsForModule
+     *
+     * @param AllocationsForModule $allocationsForModule
+     *
+     * @return Staff
+     */
+    public function addAllocationForModule(AllocationsForModule $allocationsForModule)
+    {
 
+        $allocationsForModule->setStaff($this);
+
+        if (!$this->getAllocationsForModule()->contains($allocationsForModule)) {
+            $this->allocationsForModule->add($allocationsForModule);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove allocationsForModule
+     *
+     * @param AllocationsForModule $allocationsForModule
+     */
+    public function removeAllocationForModule(AllocationsForModule $allocationsForModule)
+    {
+        $this->allocationsForModule->removeElement($allocationsForModule);
+    }
+
+    /**
+     * Add AllocationsForPhdStudent
+     *
+     * @param AllocationsForPhdStudent $allocationsForPhdStudent
+     *
+     * @return Staff
+     */
+    public function addAllocationForPhdStudent(AllocationsForPhdStudent $allocationsForPhdStudent)
+    {
+
+        $allocationsForPhdStudent->setStaff($this);
+
+        if (!$this->getAllocationsForPhdStudent()->contains($allocationsForPhdStudent)) {
+            $this->allocationsForPhdStudent->add($allocationsForPhdStudent);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove AllocationsForPhdStudent
+     *
+     * @param AllocationsForPhdStudent $allocationsForPhdStudent
+     */
+    public function removeAllocationForPhdStudent(AllocationsForPhdStudent $allocationsForPhdStudent)
+    {
+        $this->allocationsForPhdStudent->removeElement($allocationsForPhdStudent);
+    }
+
+
+    /**
     /**
      * @return string
      */

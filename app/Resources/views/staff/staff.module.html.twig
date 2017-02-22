@@ -1,0 +1,466 @@
+{% if standardModules %}
+<div class="panel-text">
+    <h3>Standard modules</h3>
+</div>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th width="50%">
+            Module name
+        </th>
+        <th>
+            Contact Hours
+        </th>
+        <th>
+            Preperation hours
+        </th>
+        <th>
+            Assessment hours
+        </th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for allocation in standardModules %}
+    <tr>
+        <td width="50%">
+            {{ allocation.module.name }}
+
+        </td>
+
+        <td>
+            {{ allocation.allocatedHrs }}
+
+        </td>
+        <td>
+            {{ allocation.prepHrs }}
+
+        </td>
+        <td>
+            {{ allocation.assessmentHrs }}
+
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    {% if standardModuleTotals %}
+    <tr class="sum">
+        <td width="50%">
+             Total
+
+        </td>
+
+        <td>
+            {{ standardModuleTotals.totalAllocatedHrs }}
+
+        </td>
+        <td>
+            {{ standardModuleTotals.totalPrepHrs }}
+
+        </td>
+        <td>
+            {{ standardModuleTotals.totalAssessmentHrs }}
+
+        </td>
+    </tr>
+    {% endif %}
+    </tfoot>
+
+</table>
+{% endif %}
+{% if studioModules %}
+
+<div class="panel-text">
+    <h3>Studio modules</h3>
+</div>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th width="50%">
+            Module name
+        </th>
+        <th>
+            Contact Hours
+        </th>
+        <th>
+            Preperation hours
+        </th>
+        <th>
+            Assessment hours
+        </th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for allocation in studioModules %}
+        <tr>
+            <td width="50%">
+                {{ allocation.module.name }}
+
+            </td>
+
+            <td>
+                {{ allocation.allocatedHrs }}
+
+            </td>
+            <td>
+                {{ allocation.prepHrs }}
+
+            </td>
+            <td>
+                {{ allocation.assessmentHrs }}
+
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    {% if studioModulesTotals %}
+        <tr class="sum">
+            <td width="50%">
+                Total
+
+            </td>
+
+            <td>
+                {{ studioModulesTotals.totalAllocatedHrs }}
+
+            </td>
+            <td>
+                {{ studioModulesTotals.totalPrepHrs }}
+
+            </td>
+            <td>
+                {{ studioModulesTotals.totalAssessmentHrs }}
+
+            </td>
+        </tr>
+    {% endif %}
+    </tfoot>
+</table>
+
+{% endif %}
+{% if mixedModules %}
+<div class="panel-text">
+    <h3>Mixed modules</h3>
+</div>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th width="50%">
+            Module name
+        </th>
+        <th>
+            Contact Hours
+        </th>
+        <th>
+            Preperation hours
+        </th>
+        <th>
+            Assessment hours
+        </th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for allocation in mixedModules %}
+        <tr>
+            <td width="50%">
+                {{ allocation.module.name }}
+
+            </td>
+
+            <td>
+                {{ allocation.allocatedHrs }}
+
+            </td>
+            <td>
+                {{ allocation.prepHrs }}
+
+            </td>
+            <td>
+                {{ allocation.assessmentHrs }}
+
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    {% if mixedModulesTotals %}
+        <tr class="sum">
+            <td width="50%">
+                Total
+
+            </td>
+
+            <td>
+                {{ mixedModulesTotals.totalAllocatedHrs }}
+
+            </td>
+            <td>
+                {{ mixedModulesTotals.totalPrepHrs }}
+
+            </td>
+            <td>
+                {{ mixedModulesTotals.totalAssessmentHrs }}
+
+            </td>
+        </tr>
+    {% endif %}
+    </tfoot>
+
+</table>
+{% endif %}
+{% if placementtModules %}
+
+<div class="panel-text">
+    <h3>Placement modules</h3>
+</div>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th width="50%">
+            Module name
+        </th>
+        <th>
+            Contact Hours
+        </th>
+        <th>
+            Preperation hours
+        </th>
+        <th>
+            Assessment hours
+        </th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for allocation in placementtModules %}
+        <tr>
+            <td width="50%">
+                {{ allocation.module.name }}
+
+            </td>
+
+            <td>
+                {{ allocation.allocatedHrs }}
+
+            </td>
+            <td>
+                {{ allocation.prepHrs }}
+
+            </td>
+            <td>
+                {{ allocation.assessmentHrs }}
+
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+
+    <tfoot>
+    {% if placementtModulesTotals %}
+        <tr class="sum">
+            <td width="50%">
+                Total
+
+            </td>
+
+            <td>
+                {{ placementtModulesTotals.totalAllocatedHrs }}
+
+            </td>
+            <td>
+                {{ placementtModulesTotals.totalPrepHrs }}
+
+            </td>
+            <td>
+                {{ placementtModulesTotals.totalAssessmentHrs }}
+
+            </td>
+        </tr>
+    {% endif %}
+    </tfoot>
+
+</table>
+
+{% endif %}
+{% if projectModulesUG or projectModulesPG %}
+
+<div class="panel-text">
+    <h3>Project modules</h3>
+</div>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th width="50%">
+            Module name
+        </th>
+        <th>
+            Contact Hours
+        </th>
+        <th>
+            Preperation hours
+        </th>
+        <th>
+            Assessment hours
+        </th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for allocation in projectModulesUG %}
+        <tr>
+            <td width="50%">
+                {{ allocation.module.name }}
+
+            </td>
+
+            <td>
+                {{ allocation.allocatedHrs }}
+
+            </td>
+            <td>
+                {{ allocation.prepHrs }}
+
+            </td>
+            <td>
+                {{ allocation.assessmentHrs }}
+
+            </td>
+        </tr>
+    {% endfor %}
+    {% for allocation in projectModulesPG %}
+        <tr>
+            <td width="50%">
+                {{ allocation.module.name }}
+
+            </td>
+
+            <td>
+                {{ allocation.allocatedHrs }}
+
+            </td>
+            <td>
+                {{ allocation.prepHrs }}
+
+            </td>
+            <td>
+                {{ allocation.assessmentHrs }}
+
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    {% if projectModulesUG or projectModulesPG %}
+        <tr class="sum">
+            <td width="50%">
+                Total
+            </td>
+
+            <td>
+                {{ projectModulesUGTotals.totalAllocatedHrs + projectModulesPGTotals.totalAllocatedHrs }}
+
+            </td>
+            <td>
+                {{ projectModulesUGTotals.totalPrepHrs + projectModulesPGTotals.totalPrepHrs  }}
+
+            </td>
+            <td>
+                {{ projectModulesUGTotals.totalAssessmentHrs + projectModulesPGTotals.totalAssessmentHrs  }}
+
+            </td>
+        </tr>
+    {% endif %}
+    </tfoot>
+</table>
+{% endif %}
+{% if moduleLeaderHrs or internalModeratorHrs %}
+
+    <div class="panel-text">
+        <h3>Module leader / Internal Moderator allocations</h3>
+    </div>
+
+    {% if moduleLeaderHrs %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th width="50%">
+                Module name
+            </th>
+            <th>
+                Module Leader Hours
+            </th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for allocation in moduleLeaderHrs %}
+            <tr>
+                <td width="50%">
+                    {{ allocation.name }}
+
+                </td>
+
+                <td>
+                    {{ allocation.moduleLeaderHrs }}
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr class="sum">
+                <td>
+                    Total
+                </td>
+                <td>
+                    {{ moduleLeaderHrsTotal.moduleLeaderHrsTotal }}
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    {% endif %}
+
+    {% if internalModeratorHrs %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th width="50%">
+                    Module name
+                </th>
+                <th>
+                    Internal Moderator Hours
+                </th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for allocation in internalModeratorHrs %}
+                <tr>
+                    <td width="50%">
+                        {{ allocation.name }}
+
+                    </td>
+                    <td>
+                        {{ allocation.internalModeratorHrs }}
+
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr class="sum">
+                    <td>
+                        Total
+                    </td>
+                    <td>
+                        {{ internalModeratorHrsTotal.internalModeratorHrsTotal }}
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    {% endif %}
+{% endif %}
