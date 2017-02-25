@@ -114,14 +114,14 @@ class Module {
 
     /**
      * One module leader one staff .
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Staff")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Staff", inversedBy="moduleLeaders")
      * @ORM\JoinColumn(name="moduleLeader", referencedColumnName="id")
      */
     protected $moduleLeader;
 
     /**
      * One internal Moderator one staff .
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Staff")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Staff", inversedBy="internalModerators")
      * @ORM\JoinColumn(name="internalModerator", referencedColumnName="id")
      */
     protected $internalModerator;
@@ -432,7 +432,7 @@ class Module {
         $preparationCategory = $this->getPreparationCategory();
         $studioPrepHrs = $preparationCategory->getStudioPrepHrs();
 
-        $preparationHrs = 0;
+        $preparationHrs = $this->getPreparationHrs();
 
         if ($mode->getCode() == 1) {
             $preparationHrs = (int)$credit * (float)$preparationCategory->getCode();
@@ -445,6 +445,11 @@ class Module {
         if ($mode->getCode() == 3) {
 
             $preparationHrs = ((int)$credit * (float)$preparationCategory->getCode() * (1-((float)$studio)))+((float)$studioPrepHrs * (float)$studio);
+        }
+
+        if ($mode->getCode() == 6) {
+
+            $preparationHrs = $this->getPreparationHrs();
         }
 
         return $preparationHrs;
@@ -514,7 +519,7 @@ class Module {
         $assessmentCategory = $this->getAssessmentCategory();
         $studioAssessmentHrs = $assessmentCategory->getStudioAssessmentHrs();
 
-        $assessmentHrs = 0;
+        $assessmentHrs = $this->getAssessmentHrs();
 
         if ($mode->getCode() == 1) {
             $assessmentHrs = (float)$credit * (float)$assessmentCategory->getCode() * (float)$studentNumbers;
@@ -557,7 +562,7 @@ class Module {
         $groupFactor = $this->getGroupFactor();
         $contactHrsfactor = $mode->getContactHrsFactor();
 
-        $contactHrs = 0;
+        $contactHrs = $this->getContactHrs();
 
         if ($mode->getCode() == 1) {
             $contactHrs = (float)$credit * (float)$contactHrsfactor;
@@ -580,6 +585,11 @@ class Module {
         if ($mode->getCode() == 5) {
 
             $contactHrs = (float)$contactHrsfactor;
+        }
+
+        if ($mode->getCode() == 6) {
+
+            $contactHrs = $this->getContactHrs();
         }
 
         return $contactHrs;

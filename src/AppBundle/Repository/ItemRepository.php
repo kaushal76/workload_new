@@ -10,39 +10,39 @@ use Doctrine\ORM\EntityRepository;
  */
 class ItemRepository extends EntityRepository
 {
-    public function findAllocationsForStaffByCategory($staff, $category)
+
+    public function findItembyStaffbyCategory($staff, $category)
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery('
-          SELECT p
-          FROM AppBundle:AllocationsForModule p
-          LEFT JOIN AppBundle:Module r WITH p.module = r.id
-          LEFT JOIN AppBundle:Staff s WITH p.staff = s.id
-          WHERE (p.staff = :staff) AND (r.moduleCategory= :category)
+          SELECT p.name As name, r.allocatedHrs as allocatedHrs
+          FROM AppBundle:Item p
+          LEFT JOIN AppBundle:Allocation r WITH p.id = r.item 
+          INNER JOIN AppBundle:Staff s WITH r.staff = s.id
+          WHERE (r.staff = :staff) AND (p.category = :category)
           ')
             ->setParameter('staff', $staff)
             ->setParameter('category', $category);
 
-        $allocations = $query->getResult();
-        return $allocations;
+        $item = $query->getResult();
+        return $item;
 
     }
 
-    public function findTotals($staff, $category)
+    public function findItembyStaffbyCategoryTotal($staff, $category)
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery('
-          SELECT SUM(p.prepHrs) as totalPrepHrs, SUM(p.allocatedHrs) AS totalAllocatedHrs, SUM(p.assessmentHrs) as totalAssessmentHrs
-          FROM AppBundle:AllocationsForModule p
-          LEFT JOIN AppBundle:Module r WITH p.module = r.id
-          LEFT JOIN AppBundle:Staff s WITH p.staff = s.id
-          WHERE (p.staff = :staff) AND (r.moduleCategory= :category)
+          SELECT SUM(r.allocatedHrs) as allocatedHrs
+          FROM AppBundle:Item p
+          LEFT JOIN AppBundle:Allocation r WITH p.id = r.item 
+          INNER JOIN AppBundle:Staff s WITH r.staff = s.id
+          WHERE (r.staff = :staff) AND (p.category = :category)
           ')
             ->setParameter('staff', $staff)
             ->setParameter('category', $category);
 
         $totals = $query->getOneOrNullResult();
-
         return $totals;
 
     }

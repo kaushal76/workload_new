@@ -1,6 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
+
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-default ">
@@ -17,13 +18,62 @@
 
         <div class="col-md-6">
             <div class="panel panel-default">
-                <div class="panel-heading"><h3>PhD Students</h3></div>
+                <div class="panel-heading">
+                    <h3>
+                        PhD Students
+                    </h3>
+                </div>
                 <div class="panel-body tablepanel">
                     {% include ':staff:staff.phd.html.twig' %}
                 </div>
             </div>
-            <div>
-                <button class="btn btn-primary" name="submit" type="submit">Save</button>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default ">
+                <div class="panel-heading">
+                    <h3>
+                        Research related allocations
+                    </h3>
+                </div>
+                <div class="panel-body tablepanel">
+                    {% include ':staff:staff.research.html.twig' %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default ">
+                <div class="panel-heading">
+                    <h3>
+                        Teaching related allocations
+                    </h3>
+                </div>
+                <div class="panel-body tablepanel">
+                    {% include ':staff:staff.teachingrelated.html.twig' %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default ">
+                <div class="panel-heading">
+                    <h3>
+                        Management related allocations
+                    </h3>
+                </div>
+                <div class="panel-body tablepanel">
+                    {% include ':staff:staff.management.html.twig' %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default ">
+                <div class="panel-heading">
+                    <h3>
+                        Administration related allocations
+                    </h3>
+                </div>
+                <div class="panel-body tablepanel">
+                    {% include ':staff:staff.administration.html.twig' %}
+                </div>
             </div>
         </div>
     </div>

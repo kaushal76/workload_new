@@ -64,6 +64,15 @@ class Staff {
     protected $fte;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Module", mappedBy="moduleLeader", cascade={"persist"})
+     */
+    protected $moduleLeaders;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Module", mappedBy="internalModerator", cascade={"persist"})
+     */
+    protected $internalModerators;
+    /**
      * Staff constructor.
      */
 
@@ -72,6 +81,9 @@ class Staff {
         $this->allocations = new ArrayCollection();
         $this->allocationsForModule = new ArrayCollection();
         $this->allocationsForPhdStudent = new ArrayCollection();
+        $this->internalModerators = new ArrayCollection();
+        $this->moduleLeaders = new ArrayCollection();
+
     }
 
     /**
@@ -81,6 +93,40 @@ class Staff {
     {
         return $this->fte;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getModuleLeaders()
+    {
+        return $this->moduleLeaders;
+    }
+
+    /**
+     * @param mixed $moduleLeaders
+     */
+    public function setModuleLeaders($moduleLeaders)
+    {
+        $this->moduleLeaders = $moduleLeaders;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInternalModerators()
+    {
+        return $this->internalModerators;
+    }
+
+    /**
+     * @param mixed $internalModerators
+     */
+    public function setInternalModerators($internalModerators)
+    {
+        $this->internalModerators = $internalModerators;
+    }
+
+
 
     /**
      * @param mixed $fte
@@ -217,6 +263,7 @@ class Staff {
         return $this;
     }
 
+
     /**
      * Remove allocations
      *
@@ -225,6 +272,64 @@ class Staff {
     public function removeAllocation(Allocation $allocations)
     {
         $this->allocations->removeElement($allocations);
+    }
+
+    /**
+     * Add internalModerators
+     *
+     * @param
+     *
+     * @return Staff
+     */
+    public function addInternalModerator(Module $modules)
+    {
+
+        $modules->setInternalModerator($this);
+
+        if (!$this->getInternalModerators()->contains($modules)) {
+            $this->internalModerators->add($modules);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove internalModerators
+     *
+     * @param Module $module
+     */
+    public function removeInternalModerator(Module $modules)
+    {
+        $this->internalModerators->removeElement($modules);
+    }
+
+    /**
+     * Add moduleLeader
+     *
+     * @param
+     *
+     * @return Staff
+     */
+    public function addModuleLeader(Module $modules)
+    {
+
+        $modules->setInternalModerator($this);
+
+        if (!$this->getModuleLeaders()->contains($modules)) {
+            $this->moduleLeaders->add($modules);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove moduleLeader
+     *
+     * @param Module $module
+     */
+    public function removeModuleLeader(Module $modules)
+    {
+        $this->moduleLeaders->removeElement($modules);
     }
 
     /**
@@ -293,4 +398,5 @@ class Staff {
     public function __toString() {
         return $this->title.' '.$this->firstname.' '.$this->surname;
     }
+
 }

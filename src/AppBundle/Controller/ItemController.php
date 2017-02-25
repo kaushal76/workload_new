@@ -90,6 +90,57 @@ class ItemController extends Controller
      * Displays a form to show an existing Item entity.
      *
      * @param Request $request Item $item
+     * @Route("/{id}/allocate", name="item_allocate")
+     * @Method({"GET", "POST"})
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+
+    public function allocateAction(Request $request, Item $item)
+    {
+
+        $form = $this->createForm(ItemType::class, $item);
+        $em = $this->getDoctrine()->getManager();
+        $itemObj = $em->getRepository('AppBundle:Item')->find($item);
+
+        $originalAllocations = new ArrayCollection();
+
+        foreach ($itemObj->getAllocations() as $allocation) {
+            $originalAllocations->add($allocation);
+        }
+
+        $total = $this->calculateTotals($item);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            foreach ($item->getAllocations() as $allocation) {
+                $allocation->setItem($item);
+                $allocation->setprepHrs($allocation->calculatePrepHrs($item));
+                $allocation->setAssessmentHrs($allocation->calculateAssessmentHrs($item));
+            }
+
+            foreach ($originalAllocations as $allocation) {
+                if (false === $item->getAllocations()->contains($allocation)) {
+                    $em->remove($allocation);
+                }
+            }
+            $em->persist($item);
+            $em->flush();
+            return $this->redirectToRoute('item_show', array('id' => $item->getId()));
+        }
+
+        return $this->render('item/show.html.twig', array(
+            'item' => $item,
+            'form' => $form->createView(),
+            'total' => $total,
+        ));
+
+    }
+
+    /**
+     * Displays a form to show an existing Item entity.
+     *
+     * @param Request $request Item $item
      * @Route("/{id}/show", name="item_show")
      * @Method({"GET", "POST"})
      * @return \Symfony\Component\HttpFoundation\Response

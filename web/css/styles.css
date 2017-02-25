@@ -28,10 +28,54 @@ body {
 }
 
 .sum{
-    border-top-color: black;
-    border-top: solid;
-    border-bottom: double thick;
+    text-decoration: solid;
+    font-style: italic;
+    text-align: right;
+    font-weight: bold;
+}
+
+.total{
+    text-decoration: solid;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.sheading{
+    border-bottom: solid;
     border-bottom-color: black;
     text-decoration: solid;
     font-weight: bold;
+    font-size: medium;
+}
+
+#sum.subtotal {
+    border-top: 2px;
+    border-top-color: black;
+    border-top-style: solid;;
+}
+
+.summarytable {
+    padding: 4px;
+}
+
+.btn-sm {
+    padding: 1px;
+}
+
+th.rotate {
+    /* Something you can count on */
+    height: 140px;
+    white-space: normal;
+}
+
+th.rotate > div {
+    transform:
+        /* Magic Numbers */
+            translate(0px, 0px)
+                /* 45 is really 360 - 45 */
+            rotate(270deg);
+    width: 30px;
+}
+th.rotate > div > span {
+    padding: 5px 10px;
 }

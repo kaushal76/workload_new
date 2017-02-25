@@ -16,7 +16,7 @@ class ModuleRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery('
-          SELECT p.moduleLeaderHrs, p.internalModeratorHrs, p.name
+          SELECT p.moduleLeaderHrs, p.internalModeratorHrs, p.name, p.id, p.code
           FROM AppBundle:Module p
           WHERE (p.moduleLeader = :staff)
           ')
@@ -31,7 +31,7 @@ class ModuleRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery('
-          SELECT p.moduleLeaderHrs, p.internalModeratorHrs, p.name
+          SELECT p.moduleLeaderHrs, p.internalModeratorHrs, p.name, p.id, p.code
           FROM AppBundle:Module p
           WHERE (p.internalModerator= :staff)
           ')

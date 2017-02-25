@@ -1,0 +1,615 @@
+<table class="table table-reponsive">
+    <thead>
+    <tr>
+        <th>
+            Item
+        </th>
+        <th width="10%">
+            Allocated hours
+        </th>
+        <th width="5%">
+
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if researchItems %}
+        <tr>
+            <td class="sheading" colspan="3">
+                Research and Enterprise
+            </td>
+        </tr>
+
+        {% for item in researchItems %}
+
+            <tr>
+                <td>
+                    {{ (item.item.name) }}
+                </td>
+                <td>
+                    {{ (item.allocatedHrs | number_format(2)) }}
+                </td>
+                <td>
+                    <a data-toggle="modal"
+                       class="btn btn-sm"
+                       data-target="#research">
+                        <span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                    </a>
+
+                </td>
+
+            </tr>
+
+
+        {% endfor %}
+        <tr class="sum">
+            <td>
+                Research and Entrprise subtotal
+            </td>
+            <td class="subtotal">
+                {{ researchItemTotals.allocatedHrsTotal | number_format(2) }}
+            </td>
+            <td>
+            </td>
+        </tr>
+
+
+    {% endif %}
+
+    <tr>
+        <td class="sheading" colspan="3">
+            Formal scheduled teaching
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Teaching (24 weeks per year)
+        </td>
+        <td>
+            {{ (standardModuleTotals.totalAllocatedHrs + studioModuleTotals.totalAllocatedHrs
+            + mixedModuleTotals.totalAllocatedHrs)  | number_format(2) }}
+        </td>
+        <td>
+            <a data-toggle="modal"
+               class="btn btn-sm"
+               data-target="#module">
+                <span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span>
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            UG project supervision (24 weeks per year)
+        </td>
+        <td>
+            {{ projectModulesUGTotals.totalAllocatedHrs  | number_format(2) }}
+        </td>
+        <td>
+            <a data-toggle="modal"
+               class="btn btn-sm"
+               data-target="#project">
+                <span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span>
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            PG project supervision (42 weeks per year)
+        </td>
+        <td>
+            {{ projectModulesPGTotals.totalAllocatedHrs  | number_format(2) }}
+        </td>
+        <td>
+            <a data-toggle="modal"
+               class="btn btn-sm"
+               data-target="#project">
+                <span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span>
+            </a>
+        </td>
+
+    </tr>
+    <tr>
+        <td>
+            Placement supervision (24 weeks per year)
+        </td>
+        <td>
+            {{ placementModuleTotals.totalAllocatedHrs  | number_format(2) }}
+        </td>
+        <td>
+            <a data-toggle="modal"
+               class="btn btn-sm"
+               data-target="#placement">
+                <span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span>
+            </a>
+        </td>
+
+    </tr>
+    <tr>
+        <td>
+            PhD / MRes supervision (42 weeks per year)
+        </td>
+        <td>
+            {{ PhdAllocationTotals.totalAllocatedHrs  | number_format(2) }}
+        </td>
+        <td>
+            <a data-toggle="modal"
+               class="btn btn-sm"
+               data-target="#phdStudent">
+                <span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span>
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            KTP supervision (42 weeks per year)
+        </td>
+        <td>
+            {{ ktpModuleTotals.totalAllocatedHrs  | number_format(2) }}
+        </td>
+        <td>
+            <a data-toggle="modal"
+               class="btn btn-sm"
+               data-target="#ktp">
+                <span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span>
+            </a>
+        </td>
+    </tr>
+
+    <tr class="sum">
+        <td>
+            Formal scheduled hours per year subtotal (max 550)
+        </td>
+        <td class="subtotal">
+            {{ (standardModuleTotals.totalAllocatedHrs + studioModuleTotals.totalAllocatedHrs
+            + mixedModuleTotals.totalAllocatedHrs +projectModulesUGTotals.totalAllocatedHrs
+            + projectModulesPGTotals.totalAllocatedHrs + placementModuleTotals.totalAllocatedHrs
+            + PhdAllocationTotals.totalAllocatedHrs + ktpModuleTotals.totalAllocatedHrs) | number_format(2) }}
+        </td>
+        <td class="subtotal">
+
+        </td>
+    </tr>
+
+    <tr class="sum">
+        <td>
+            Formal scheduled hours per week (max 18)
+        </td>
+        <td>
+            {{ ((standardModuleTotals.totalAllocatedHrs/24) + (studioModuleTotals.totalAllocatedHrs/24)
+            + (mixedModuleTotals.totalAllocatedHrs/24) + (projectModulesUGTotals.totalAllocatedHrs/24)
+            + (projectModulesPGTotals.totalAllocatedHrs/42) + (placementModuleTotals.totalAllocatedHrs/24)
+            + (PhdAllocationTotals.totalAllocatedHrs/42) + (ktpModuleTotals.totalAllocatedHrs/42))  | number_format(2) }}
+        </td>
+        <td>
+
+        </td>
+    </tr>
+
+    <tr class="sheading">
+        <td colspan="3">
+            Teaching related activities
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Preperation for formal scheduled teaching
+        </td>
+        <td>
+            {{ (standardModuleTotals.totalPrepHrs + studioModuleTotals.totalPrepHrs
+            + mixedModuleTotals.totalPrepHrs)  | number_format(2) }}
+        </td>
+        <td>
+            <a data-toggle="modal"
+               class="btn btn-sm"
+               data-target="#module">
+                <span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span>
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Assessment of students
+        </td>
+        <td>
+            {{ (standardModuleTotals.totalAssessmentHrs + studioModuleTotals.totalAssessmentHrs
+            + mixedModuleTotals.totalAssessmentHrs)  | number_format(2) }}
+        </td>
+        <td>
+            <a data-toggle="modal"
+               class="btn btn-sm"
+               data-target="#module">
+                <span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span>
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            PhD/MRes supervision related activities
+        </td>
+        <td>
+            {{ PhdAllocationTotals.totalSupportHrs  | number_format(2) }}
+        </td>
+        <td>
+            <a data-toggle="modal"
+               class="btn btn-sm"
+               data-target="#phdStudent">
+                <span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span>
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            KTP supervision related activities
+        </td>
+        <td>
+            {{ ktpModuleTotals.totalPrepHrs  | number_format(2) }}
+        </td>
+        <td>
+            <a data-toggle="modal"
+               class="btn btn-sm"
+               data-target="#ktp">
+                <span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span>
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Module Leader
+        </td>
+        <td>
+            {{ moduleLeaderHrsTotal.moduleLeaderHrsTotal  | number_format(2) }}
+        </td>
+        <td>
+            <a data-toggle="modal"
+               class="btn btn-sm"
+               data-target="#moduleleader">
+                <span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span>
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Internal Moderator
+        </td>
+        <td>
+            {{ internalModeratorHrsTotal.internalModeratorHrsTotal | number_format(2) }}
+        </td>
+        <td>
+            <a data-toggle="modal"
+               class="btn btn-sm"
+               data-target="#moduleleader">
+                <span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span>
+            </a>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            UG/PG Project Assessment
+        </td>
+        <td>
+            {{ (projectModulesPGTotals.totalAssessmentHrs + projectModulesUGTotals.totalAssessmentHrs )  | number_format(2) }}
+        </td>
+        <td>
+            <a data-toggle="modal"
+               class="btn btn-sm"
+               data-target="#project">
+                <span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span>
+            </a>
+        </td>
+    </tr>
+
+    {% if teachingRelatedItems %}
+
+        {% for teachingRelatedItem in teachingRelatedItems %}
+
+            <tr>
+                <td>
+                    {{ teachingRelatedItem.item.name }}
+                </td>
+                <td>
+                    {{ teachingRelatedItem.allocatedHrs | number_format(2) }}
+                </td>
+                <td>
+                    <a data-toggle="modal"
+                       class="btn btn-sm"
+                       data-target="#teachingrelated">
+                        <span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                    </a>
+
+                </td>
+            </tr>
+
+        {% endfor %}
+    {% endif %}
+
+    <tr class="sum">
+        <td>
+            Teaching related activities subtotal
+        </td>
+        <td>
+            {{ (standardModuleTotals.totalPrepHrs + studioModuleTotals.totalPrepHrs
+            + mixedModuleTotals.totalPrepHrs + standardModuleTotals.totalAssessmentHrs
+            + studioModuleTotals.totalAssessmentHrs + mixedModuleTotals.totalAssessmentHrs
+            + PhdAllocationTotals.totalSupportHrs + ktpModuleTotals.totalPrepHrs
+            + moduleLeaderHrsTotal.moduleLeaderHrsTotal + moduleLeaderHrsTotal.moduleLeaderHrsTotal
+            + internalModeratorHrsTotal.internalModeratorHrsTotal + projectModulesPGTotals.totalAssessmentHrs
+            + projectModulesUGTotals.totalAssessmentHrs + teachingRelatedItemTotals.allocatedHrsTotal ) | number_format(2) }}
+        </td>
+        <td>
+
+        </td>
+    </tr>
+
+    {% if managementItems %}
+        <tr>
+            <td class="sheading" colspan="3">
+                Management
+            </td>
+        </tr>
+
+        {% for item in managementItems %}
+
+            <tr>
+                <td>
+                    {{ item.item.name }}
+                </td>
+                <td>
+                    {{ item.allocatedHrs | number_format(2) }}
+                </td>
+                <td>
+                    <a data-toggle="modal"
+                       class="btn btn-sm"
+                       data-target="#management">
+                        <span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                    </a>
+                </td>
+            </tr>
+
+        {% endfor %}
+        <tr class="sum">
+            <td>
+                Management subtotal
+            </td>
+            <td class="subtotal">
+                {{ managementItemTotals.allocatedHrsTotal | number_format(2) }}
+            </td>
+            <td>
+
+            </td>
+        </tr>
+    {% endif %}
+
+    {% if adminItems %}
+        <tr>
+            <td class="sheading" colspan="3">
+                Administration
+            </td>
+        </tr>
+
+        {% for item in adminItems %}
+
+            <tr>
+                <td>
+                    {{ item.item.name }}
+                </td>
+                <td>
+                    {{ item.allocatedHrs | number_format(2) }}
+                </td>
+                <td>
+                    <a data-toggle="modal"
+                       class="btn btn-sm"
+                       data-target="#administration">
+                        <span class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                    </a>
+                </td>
+            </tr>
+
+        {% endfor %}
+        <tr class="sum">
+            <td>
+                Administration subtotal
+            </td>
+            <td class="subtotal">
+                {{ adminItemTotals.allocatedHrsTotal | number_format(2) }}
+            </td>
+            <td class="subtotal">
+
+            </td>
+        </tr>
+    {% endif %}
+
+    <tr class="sum sheading">
+        <td>
+            Total Workload
+        </td>
+        <td class="subtotal">
+            {{ (adminItemTotals.allocatedHrsTotal + managementItemTotals.allocatedHrsTotal
+            + standardModuleTotals.totalPrepHrs + studioModuleTotals.totalPrepHrs
+            + mixedModuleTotals.totalPrepHrs + standardModuleTotals.totalAssessmentHrs
+            + studioModuleTotals.totalAssessmentHrs + mixedModuleTotals.totalAssessmentHrs
+            + PhdAllocationTotals.totalSupportHrs + ktpModuleTotals.totalPrepHrs
+            + moduleLeaderHrsTotal.moduleLeaderHrsTotal + moduleLeaderHrsTotal.moduleLeaderHrsTotal
+            + internalModeratorHrsTotal.internalModeratorHrsTotal + projectModulesPGTotals.totalAssessmentHrs
+            + projectModulesUGTotals.totalAssessmentHrs + teachingRelatedItemTotals.allocatedHrsTotal
+            + standardModuleTotals.totalAllocatedHrs + studioModuleTotals.totalAllocatedHrs
+            + mixedModuleTotals.totalAllocatedHrs +projectModulesUGTotals.totalAllocatedHrs
+            + projectModulesPGTotals.totalAllocatedHrs + placementModuleTotals.totalAllocatedHrs
+            + PhdAllocationTotals.totalAllocatedHrs + ktpModuleTotals.totalAllocatedHrs
+            + researchItemTotals.allocatedHrsTotal) | number_format(2)
+
+            }}
+        </td>
+        <td class="subtotal">
+
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="module" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{{ staff.title }}{{ ' ' }}{{ staff.firstname }}{{ ' ' }}{{ staff.surname }}</h4>
+            </div>            <!-- /modal-header -->
+            <div class="modal-body">
+                {% include ':staff:staff.module.html.twig' %}
+            </div>        <!-- /modal-body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>            <!-- /modal-footer -->
+        </div> <!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
+
+<div class="modal fade" id="placement" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{{ staff.title }}{{ ' ' }}{{ staff.firstname }}{{ ' ' }}{{ staff.surname }}</h4>
+            </div>            <!-- /modal-header -->
+            <div class="modal-body">
+                {% include ':staff:staff.placement.html.twig' %}
+            </div>        <!-- /modal-body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>            <!-- /modal-footer -->
+        </div> <!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
+
+<div class="modal fade" id="project" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{{ staff.title }}{{ ' ' }}{{ staff.firstname }}{{ ' ' }}{{ staff.surname }}</h4>
+            </div>            <!-- /modal-header -->
+            <div class="modal-body">
+                {% include ':staff:staff.project.html.twig' %}
+            </div>        <!-- /modal-body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>            <!-- /modal-footer -->
+        </div> <!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
+
+<div class="modal fade" id="ktp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{{ staff.title }}{{ ' ' }}{{ staff.firstname }}{{ ' ' }}{{ staff.surname }}</h4>
+            </div>            <!-- /modal-header -->
+            <div class="modal-body">
+                {% include ':staff:staff.ktp.html.twig' %}
+            </div>        <!-- /modal-body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>            <!-- /modal-footer -->
+        </div> <!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
+
+<div class="modal fade" id="phdStudent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{{ staff.title }}{{ ' ' }}{{ staff.firstname }}{{ ' ' }}{{ staff.surname }}</h4>
+            </div>            <!-- /modal-header -->
+            <div class="modal-body">
+                {% include ':staff:staff.phd.html.twig' %}
+            </div>        <!-- /modal-body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>            <!-- /modal-footer -->
+        </div> <!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="management" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{{ staff.title }}{{ ' ' }}{{ staff.firstname }}{{ ' ' }}{{ staff.surname }}</h4>
+            </div>            <!-- /modal-header -->
+            <div class="modal-body">
+                {% include ':staff:staff.management.html.twig' %}
+            </div>        <!-- /modal-body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>            <!-- /modal-footer -->
+        </div> <!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="research" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{{ staff.title }}{{ ' ' }}{{ staff.firstname }}{{ ' ' }}{{ staff.surname }}</h4>
+            </div>            <!-- /modal-header -->
+            <div class="modal-body">
+                {% include ':staff:staff.research.html.twig' %}
+            </div>        <!-- /modal-body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>            <!-- /modal-footer -->
+        </div> <!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="moduleleader" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{{ staff.title }}{{ ' ' }}{{ staff.firstname }}{{ ' ' }}{{ staff.surname }}</h4>
+            </div>            <!-- /modal-header -->
+            <div class="modal-body">
+                {% include ':staff:staff.moduleleader.html.twig' %}
+            </div>        <!-- /modal-body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>            <!-- /modal-footer -->
+        </div> <!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="administration" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{{ staff.title }}{{ ' ' }}{{ staff.firstname }}{{ ' ' }}{{ staff.surname }}</h4>
+            </div>            <!-- /modal-header -->
+            <div class="modal-body">
+                {% include ':staff:staff.administration.html.twig' %}
+            </div>        <!-- /modal-body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>            <!-- /modal-footer -->
+        </div> <!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="teachingrelated" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{{ staff.title }}{{ ' ' }}{{ staff.firstname }}{{ ' ' }}{{ staff.surname }}</h4>
+            </div>            <!-- /modal-header -->
+            <div class="modal-body">
+                {% include ':staff:staff.teachingrelated.html.twig' %}
+            </div>        <!-- /modal-body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>            <!-- /modal-footer -->
+        </div> <!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div>

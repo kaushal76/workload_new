@@ -1,0 +1,34 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default ">
+                <div class="panel-heading">
+                    <h3>
+                        Module allocation details
+                    </h3>
+                </div>
+                <div class="panel-body tablepanel">
+                    {% include ':staff:staff.module.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>
+                        Module Leader / Internal Moderator allocation details
+                    </h3>
+                </div>
+                <div class="panel-body tablepanel">
+                    {% include ':staff:staff.moduleleader.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('javascript/allocations.js') }}"></script>
+{% endblock %}

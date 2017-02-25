@@ -100,13 +100,13 @@ class StaffController extends Controller
     public function showAction(Request $request, Staff $staff)
     {
 
-        //$form = $this->createForm(StaffType::class, $staff);
+        $form = $this->createForm(StaffType::class, $staff);
         $em = $this->getDoctrine()->getManager();
         $staffObj = $em->getRepository('AppBundle:Staff')->find($staff);
 
         $originalAllocations = new ArrayCollection();
 
-        /*
+
         foreach ($staffObj->getAllocations() as $allocation) {
             $originalAllocations->add($allocation);
         }
@@ -129,28 +129,57 @@ class StaffController extends Controller
             $em->flush();
             return $this->redirectToRoute('show_staff', array('id' => $staff->getId()));
         }
-        */
 
         return $this->render('staff/show.html.twig', array(
             'staff' => $staff,
-            //'form' => $form->createView(),
+            'form' => $form->createView(),
         ));
 
     }
 
     /**
-     * Displays a form to show an existing Staff entity.
+     * Displays a details of PhD student allocations for a Staff entity.
+     *
+     *
+     * @Route("/{id}/phdstudent_allocation_details", name="staff_phdstudent_allocation_details")
+     * @Method({"GET"})
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+
+    public function phdStudentAllocationDetailsAction(Staff $staff )
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //PhD student queries
+        $PhdAllocations = $em->getRepository('AppBundle:AllocationsForPhdStudent')
+            ->findAllocationsForStaff($staff);
+        $PhdAllocationTotals = $em->getRepository('AppBundle:AllocationsForPhdStudent')
+            ->findTotals($staff);
+
+
+        return $this->render(':staff:modal.phdstudent.html.twig', array(
+            'PhdAllocations' => $PhdAllocations,
+            'PhdAllocationTotals' => $PhdAllocationTotals,
+            'staff' => $staff,
+        ));
+    }
+
+
+    /**
+     * Displays a details of module allocations for a Staff entity.
      *
      * @param Request $request Staff $staff
-     * @Route("/{id}/allocations", name="allocations_staff")
+     * @Route("/{id}/module_allocation_details", name="staff_module_allocation_details")
      * @Method({"GET", "POST"})
      * @return \Symfony\Component\HttpFoundation\Response
      */
 
-    public function allocationsAction(Request $request, Staff $staff )
+    public function moduleAllocationDetailsAction(Staff $staff )
     {
+
         $em = $this->getDoctrine()->getManager();
 
+        //module queries
         $standardModules = $em->getRepository('AppBundle:AllocationsForModule')
             ->findAllocationsForStaffByCategory($staff, 2);
         $standardModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')
@@ -170,29 +199,125 @@ class StaffController extends Controller
         $placementtModules = $em->getRepository('AppBundle:AllocationsForModule')
             ->findAllocationsForStaffByCategory($staff, 6 );
         $placementtModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')
-            ->findTotals($staff, 5);
-        $PhdAllocations = $em->getRepository('AppBundle:AllocationsForPhdStudent')
-            ->findAllocationsForStaff($staff);
-        $PhdAllocationTotals = $em->getRepository('AppBundle:AllocationsForPhdStudent')
-            ->findTotals($staff);
+            ->findTotals($staff, 6);
         $projectModulesPG = $em->getRepository('AppBundle:AllocationsForModule')
             ->findAllocationsForStaffByCategory($staff, 7 );
         $projectModulesPGTotals = $em->getRepository('AppBundle:AllocationsForModule')
             ->findTotals($staff, 7);
 
+        // Module leader queries
         $moduleLeaderHrs = $em->getRepository('AppBundle:Module')
             ->findModuleLeaderForStaff($staff);
         $moduleLeaderHrsTotal = $em->getRepository('AppBundle:Module')
             ->findModuleLeaderTotal($staff);
-
         $internalModeratorHrs = $em->getRepository('AppBundle:Module')
             ->findInternalModeratorForStaff($staff);
         $internalModeratorHrsTotal = $em->getRepository('AppBundle:Module')
             ->findinternalModeratorTotal($staff);
 
 
-        return $this->render(':staff:allocations.html.twig', array(
-           'standardModules'=>$standardModules,
+        return $this->render(':staff:modal.module.html.twig', array(
+            'standardModules'=>$standardModules,
+            'studioModules' => $studioModules,
+            'mixedModules' => $mixedModules,
+            'projectModulesUG' => $projectModulesUG,
+            'projectModulesPG' => $projectModulesPG,
+            'placementtModules' => $placementtModules,
+            'standardModuleTotals' => $standardModuleTotals,
+            'studioModuleTotals' => $studioModuleTotals,
+            'mixedModuleTotals' => $mixedModuleTotals,
+            'projectModulesUGTotals' =>  $projectModulesUGTotals,
+            'placementModuleTotals' => $placementtModuleTotals,
+            'projectModulesPGTotals' => $projectModulesPGTotals,
+            'moduleLeaderHrs' => $moduleLeaderHrs,
+            'internalModeratorHrs' => $internalModeratorHrs,
+            'moduleLeaderHrsTotal' =>$moduleLeaderHrsTotal,
+            'internalModeratorHrsTotal' => $internalModeratorHrsTotal,
+            'staff'=>$staff,
+        ));
+
+    }
+
+    /**
+     * Displays a form to show an existing Staff entity.
+     *
+     * @param Request $request Staff $staff
+     * @Route("/{id}/allocations", name="allocations_staff")
+     * @Method({"GET", "POST"})
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+
+    public function allocationsAction(Request $request, Staff $staff )
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //module queries
+        $standardModules = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findAllocationsForStaffByCategory($staff, 2);
+        $standardModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 2);
+        $studioModules = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findAllocationsForStaffByCategory($staff, 3);
+        $studioModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 3);
+        $mixedModules = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findAllocationsForStaffByCategory($staff, 4);
+        $mixedModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 4);
+        $projectModulesUG = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findAllocationsForStaffByCategory($staff, 5 );
+        $projectModulesUGTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 5);
+        $placementtModules = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findAllocationsForStaffByCategory($staff, 6 );
+        $placementtModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 6);
+        $projectModulesPG = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findAllocationsForStaffByCategory($staff, 7 );
+        $projectModulesPGTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 7);
+        $ktpModules = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findAllocationsForStaffByCategory($staff, 8 );
+        $ktpModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 8);
+
+        //PhD student queries
+        $PhdAllocations = $em->getRepository('AppBundle:AllocationsForPhdStudent')
+            ->findAllocationsForStaff($staff);
+        $PhdAllocationTotals = $em->getRepository('AppBundle:AllocationsForPhdStudent')
+            ->findTotals($staff);
+
+        // Module leader queries
+        $moduleLeaderHrs = $em->getRepository('AppBundle:Module')
+            ->findModuleLeaderForStaff($staff);
+        $moduleLeaderHrsTotal = $em->getRepository('AppBundle:Module')
+            ->findModuleLeaderTotal($staff);
+        $internalModeratorHrs = $em->getRepository('AppBundle:Module')
+            ->findInternalModeratorForStaff($staff);
+        $internalModeratorHrsTotal = $em->getRepository('AppBundle:Module')
+            ->findinternalModeratorTotal($staff);
+
+        //item queries
+
+        $researchItems = $em->getRepository('AppBundle:Allocation')
+            ->findAllocationsForStaffByCategory($staff, 3);
+        $researchItemTotals = $em->getRepository('AppBundle:Allocation')
+            ->findTotals($staff, 3);
+        $teachingRelatedItems = $em->getRepository('AppBundle:Allocation')
+            ->findAllocationsForStaffByCategory($staff, 4);
+        $teachingRelatedItemTotals = $em->getRepository('AppBundle:Allocation')
+            ->findTotals($staff, 4);
+        $managementItems = $em->getRepository('AppBundle:Allocation')
+            ->findAllocationsForStaffByCategory($staff, 5);
+        $managementItemTotals = $em->getRepository('AppBundle:Allocation')
+            ->findTotals($staff, 5);
+        $adminItems = $em->getRepository('AppBundle:Allocation')
+            ->findAllocationsForStaffByCategory($staff, 6);
+        $adminItemTotals = $em->getRepository('AppBundle:Allocation')
+            ->findTotals($staff, 6);
+
+        return $this->render(':staff:summary.html.twig', array(
+            'standardModules'=>$standardModules,
             'studioModules' => $studioModules,
             'mixedModules' => $mixedModules,
             'projectModulesUG' => $projectModulesUG,
@@ -203,14 +328,24 @@ class StaffController extends Controller
             'studioModuleTotals' => $studioModuleTotals,
             'mixedModuleTotals' => $mixedModuleTotals,
             'projectModulesUGTotals' =>  $projectModulesUGTotals,
-            'placementtModuleTotals' => $placementtModuleTotals,
+            'placementModuleTotals' => $placementtModuleTotals,
             'PhdAllocationTotals' => $PhdAllocationTotals,
             'projectModulesPGTotals' => $projectModulesPGTotals,
             'moduleLeaderHrs' => $moduleLeaderHrs,
             'internalModeratorHrs' => $internalModeratorHrs,
             'moduleLeaderHrsTotal' =>$moduleLeaderHrsTotal,
             'internalModeratorHrsTotal' => $internalModeratorHrsTotal,
-
+            'researchItems' => $researchItems,
+            'researchItemTotals' => $researchItemTotals,
+            'teachingRelatedItems' =>$teachingRelatedItems,
+            'teachingRelatedItemTotals' =>$teachingRelatedItemTotals,
+            'managementItems'=>$managementItems,
+            'managementItemTotals'=> $managementItemTotals,
+            'adminItems'=>$adminItems,
+            'adminItemTotals' => $adminItemTotals,
+            'ktpModules'=>$ktpModules,
+            'ktpModuleTotals'=>$ktpModuleTotals,
+            'staff' =>$staff,
         ));
 
     }
@@ -290,4 +425,161 @@ class StaffController extends Controller
             ->getForm()
             ;
     }
+
+    /**
+     * Lists all Staff entities.
+     *
+     * @param Request $request Staff $staff
+     * @Route("/{id}/summary", name="summary_staff")
+     * @Method({"GET"})
+     */
+    public function summaryAction(Staff $staff)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //module queries
+
+        $standardModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 2);
+        $studioModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 3);
+        $mixedModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 4);
+        $projectModulesUGTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 5);
+        $placementtModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 6);
+        $projectModulesPGTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 7);
+        $ktpModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 8);
+        $moduleLeaderHrsTotal = $em->getRepository('AppBundle:Module')
+            ->findModuleLeaderTotal($staff);
+        $internalModeratorHrsTotal = $em->getRepository('AppBundle:Module')
+            ->findinternalModeratorTotal($staff);
+
+        // PhD queries
+
+        $PhdAllocationTotals = $em->getRepository('AppBundle:AllocationsForPhdStudent')
+            ->findTotals($staff);
+
+        //item queries
+
+        $researchItems = $em->getRepository('AppBundle:Allocation')
+            ->findAllocationsForStaffByCategory($staff, 3);
+        $researchItemTotals = $em->getRepository('AppBundle:Allocation')
+            ->findTotals($staff, 3);
+        $teachingRelatedItems = $em->getRepository('AppBundle:Allocation')
+            ->findAllocationsForStaffByCategory($staff, 4);
+        $teachingRelatedItemTotals = $em->getRepository('AppBundle:Allocation')
+            ->findTotals($staff, 4);
+        $managementItems = $em->getRepository('AppBundle:Allocation')
+            ->findAllocationsForStaffByCategory($staff, 5);
+        $managementItemTotals = $em->getRepository('AppBundle:Allocation')
+            ->findTotals($staff, 5);
+        $adminItems = $em->getRepository('AppBundle:Allocation')
+            ->findAllocationsForStaffByCategory($staff, 6);
+        $adminItemTotals = $em->getRepository('AppBundle:Allocation')
+            ->findTotals($staff, 6);
+
+
+        return $this->render(':staff:summary.html.twig', array(
+            'standardModuleTotals' => $standardModuleTotals,
+            'studioModuleTotals' => $studioModuleTotals,
+            'mixedModuleTotals' => $mixedModuleTotals,
+            'projectModulesUGTotals' =>  $projectModulesUGTotals,
+            'placementModuleTotals' => $placementtModuleTotals,
+            'PhdAllocationTotals' => $PhdAllocationTotals,
+            'projectModulesPGTotals' => $projectModulesPGTotals,
+            'moduleLeaderHrsTotal' =>$moduleLeaderHrsTotal,
+            'internalModeratorHrsTotal' => $internalModeratorHrsTotal,
+            'teachingRelatedItems' => $teachingRelatedItems,
+            'teachingRelatedItemTotals' =>$teachingRelatedItemTotals,
+            'managementItems' => $managementItems,
+            'managementItemTotals'=> $managementItemTotals,
+            'adminItems'=>$adminItems,
+            'adminItemTotals' => $adminItemTotals,
+            'ktpModuleTotals'=>$ktpModuleTotals,
+            'researchItems'=> $researchItems,
+            'researchItemTotals'=>$researchItemTotals,
+            'staff' => $staff,
+        ));
+    }
+
+
+
+    public function getHeadingTotalsAction(Staff $staff)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //module queries
+
+        $standardModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 2);
+        $studioModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 3);
+        $mixedModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 4);
+        $projectModulesUGTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 5);
+        $placementModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 6);
+        $projectModulesPGTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 7);
+        $ktpModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotals($staff, 8);
+        $moduleLeaderHrsTotal = $em->getRepository('AppBundle:Module')
+            ->findModuleLeaderTotal($staff);
+        $internalModeratorHrsTotal = $em->getRepository('AppBundle:Module')
+            ->findinternalModeratorTotal($staff);
+
+        // PhD queries
+
+        $PhdAllocationTotals = $em->getRepository('AppBundle:AllocationsForPhdStudent')
+            ->findTotals($staff);
+
+        //item queries
+
+        $researchItemTotals = $em->getRepository('AppBundle:Allocation')
+            ->findTotals($staff, 3);
+        $teachingRelatedItemTotals = $em->getRepository('AppBundle:Allocation')
+            ->findTotals($staff, 4);
+        $managementItemTotals = $em->getRepository('AppBundle:Allocation')
+            ->findTotals($staff, 5);
+        $adminItemTotals = $em->getRepository('AppBundle:Allocation')
+            ->findTotals($staff, 6);
+
+
+
+        $fst = $standardModuleTotals['totalAllocatedHrs'] + $studioModuleTotals['totalAllocatedHrs']
+            + $mixedModuleTotals['totalAllocatedHrs'] +$projectModulesUGTotals['totalAllocatedHrs']
+            + $projectModulesPGTotals['totalAllocatedHrs'] + $placementModuleTotals['totalAllocatedHrs']
+            + $PhdAllocationTotals['totalAllocatedHrs'] + $ktpModuleTotals['totalAllocatedHrs'];
+
+        $tra = $standardModuleTotals['totalPrepHrs'] + $studioModuleTotals['totalPrepHrs']
+            + $mixedModuleTotals['totalPrepHrs'] + $standardModuleTotals['totalAssessmentHrs']
+            + $studioModuleTotals['totalAssessmentHrs'] + $mixedModuleTotals['totalAssessmentHrs']
+            + $PhdAllocationTotals['totalSupportHrs'] + $ktpModuleTotals['totalPrepHrs']
+            + $moduleLeaderHrsTotal['moduleLeaderHrsTotal'] + $moduleLeaderHrsTotal['moduleLeaderHrsTotal']
+            + $internalModeratorHrsTotal['internalModeratorHrsTotal'] + $projectModulesPGTotals['totalAssessmentHrs']
+            + $projectModulesUGTotals['totalAssessmentHrs'] + $teachingRelatedItemTotals['allocatedHrsTotal'];
+
+        $re = $researchItemTotals['allocatedHrsTotal'];
+        $mgt = $managementItemTotals['allocatedHrsTotal'];
+        $admin = $adminItemTotals['allocatedHrsTotal'];
+
+        $total = $fst+$tra+$re+$mgt+$admin;
+
+        return $this->render(':staff:index.template.html.twig', array(
+            'fst' => $fst,
+            'tra' => $tra,
+            're' => $re,
+            'mgt' => $mgt,
+            'admin'=>$admin,
+            'total'=>$total,
+
+        ));
+
+    }
+
 }

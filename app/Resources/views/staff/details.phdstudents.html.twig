@@ -1,0 +1,20 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default ">
+                <div class="panel-heading">
+                    <h3>
+                        PhD student allocation details
+                    </h3>
+                </div>
+                <div class="panel-body tablepanel">
+                    {% include ':staff:staff.phd.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('javascript/allocations.js') }}"></script>
+{% endblock %}
