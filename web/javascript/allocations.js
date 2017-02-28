@@ -1,7 +1,8 @@
 var $collectionHolder;
 
 // setup an "add an allocation" link
-var $addAllocationLink = $('<td colspan="3"><a href="#" class="add_allocation_link btn btn-primary">Add another</a></td>');
+var $addAllocationLink = $('<td colspan="3"><a href="#" class="add_allocation_link btn"> ' +
+    '<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>Add new</a></td>');
 var $newLinkLi = $('<tr></tr>').append($addAllocationLink);
 
 jQuery(document).ready(function() {
@@ -51,7 +52,8 @@ function addAllocatonForm($collectionHolder, $newLinkLi) {
 }
 
 function addTagFormDeleteLink($tagFormLi) {
-    var $removeFormA = $('<td width="20%"><a class="btn btn-danger" href="#">Delete</a></td>');
+    var $removeFormA = $('<td width="20%"><a class="btn btn-danger" href="#">' +
+        '<span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></a></td>');
     $tagFormLi.append($removeFormA);
 
     $removeFormA.on('click', function(e) {
