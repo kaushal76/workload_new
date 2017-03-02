@@ -39,12 +39,6 @@ class Item {
      */
     protected $code;
 
-    /**
-     *
-     * One optional module one item .
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Module", mappedBy="item")
-     */
-    protected $module;
 
     /**
      *
