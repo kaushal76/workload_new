@@ -79,3 +79,9 @@ th.rotate > div {
 th.rotate > div > span {
     padding: 5px 10px;
 }
+
+.btngroup{
+    border-top: solid 1px #CCCCCC;
+    padding: 10px;
+    text-align: right;
+}

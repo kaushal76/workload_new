@@ -39,9 +39,10 @@ class Module {
     protected $name;
 
     /**
-     * @var int
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Course", inversedBy="modules")
-     * @ORM\JoinColumn(name="course", referencedColumnName="id")
+     *
+     * Many modules have many courses
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Course", inversedBy="modules")
+     * @ORM\JoinTable(name="modules_courses")
      */
     protected $course;
     /**
@@ -181,6 +182,7 @@ class Module {
     public function __construct()
     {
         $this->allocationsForModule = new ArrayCollection();
+        $this->course = new ArrayCollection();
     }
 
     /**

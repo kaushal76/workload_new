@@ -21,7 +21,7 @@ class Course {
     protected $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Module", mappedBy="course", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Module", mappedBy="course", cascade={"persist"})
      */
 
     protected $modules;

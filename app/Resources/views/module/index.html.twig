@@ -2,49 +2,62 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h1>Modules</h1>
-                </div>
-                <div class="panel-body"></div>
-            </div>
-        </div>
         <div class="col-md-8">
             <div class="panel panel-default">
                 <div class="panel-heading"><h1>Modules</h1></div>
                 <div id="tablepanel" class="panel-body">
-                    <table class="table table-striped">
+                    <table class="table table-responsive">
                         <thead>
                         <tr>
-                            <th width="5%">ID</th>
+                            <th>Code</th>
                             <th>Name</th>
-                            <th width="20%">Code</th>
-                            <th width="20%">Actions</th>
+                            <th>Year</th>
+                            <th>Term</th>
+                            <th width="10%">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for module in modules %}
+                        {% for course_ in course %}
+                            <tr class="sheading">
+                                <td colspan="3">{{ course_.name }}</td>
+                            </tr>
+                            {% for module in course_.modules %}
                             <tr>
                                 <td>
-                                    <a href="{{ path('module_show', { 'id': module.id }) }}">{{ module.id }}</a>
+                                    {{ module.code }}
                                 </td>
                                 <td>{{ module.name }}</td>
-                                <td>{{ module.code }}</td>
+                                <td>{{ module.year }}</td>
                                 <td>
-                                    <a class="btn btn-primary"
-                                       href="{{ path('module_show', { 'id': module.id }) }}">Show</a>
-                                    <a class="btn btn-primary"
-                                       href="{{ path('module_edit', { 'id': module.id }) }}">Edit</a>
+                                    {% if module.term == 4 %}
+                                    {{ '1 & 2'}}
+                                        {% else %}
+                                    {{ module.term }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm"
+                                       href="{{ path('module_allocate', { 'id': module.id }) }}">
+                                        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                                    </a>
+                                    <a class="btn btn-sm"
+                                       href="{{ path('module_edit', { 'id': module.id }) }}">
+                                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                    </a>
                                 </td>
                             </tr>
+                            {% endfor %}
                         {% endfor %}
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div>
-                <a class="btn btn-primary" href="{{ path('module_new') }}">Create a new</a>
+            <div class="btngroup">
+                <a class="btn btn-primary" href="{{ path('module_new') }}">
+                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                    Add new
+
+                </a>
             </div>
         </div>
 

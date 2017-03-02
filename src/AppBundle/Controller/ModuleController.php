@@ -18,7 +18,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class ModuleController extends Controller
 {
     /**
-     * Lists all module entities.
+     * Lists module entities categorised by courses.
      *
      * @Route("/", name="module_index")
      * @Method("GET")
@@ -27,9 +27,26 @@ class ModuleController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $modules = $em->getRepository('AppBundle:Module')->findAll();
+        $course = $em->getRepository('AppBundle:Course')->findAll();
 
         return $this->render('module/index.html.twig', array(
+            'course' => $course,
+        ));
+    }
+
+    /**
+     * Lists all module entities.
+     *
+     * @Route("/all", name="module_index_all")
+     * @Method("GET")
+     */
+    public function indexAllAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $modules = $em->getRepository('AppBundle:Module')->findAll();
+
+        return $this->render('module/index.all.html.twig', array(
             'modules' => $modules,
         ));
     }

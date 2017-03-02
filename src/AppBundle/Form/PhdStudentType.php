@@ -52,5 +52,4 @@ class PhdStudentType extends AbstractType
         return 'appbundle_phdstudent';
     }
 
-
 }

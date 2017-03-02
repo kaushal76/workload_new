@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ModuleType extends AbstractType
 {
@@ -18,9 +19,16 @@ class ModuleType extends AbstractType
         $builder->add('item')
             ->add('code')
             ->add('name')
-            ->add('term')
-            ->add('year')
-            ->add('credit')
+            ->add('year');
+        $builder->add('term', ChoiceType::class, array(
+            'choices'  => array(
+                'Term 1' => 1,
+                'Term 2' => 2,
+                'Term 3' => 3,
+                'Term 1 & 2' => 4,
+                'Year around' => 5
+            )));
+        $builder->add('credit')
             ->add('studentNos')
             ->add('preparationHrs')
             ->add('assessmentHrs')
@@ -42,6 +50,7 @@ class ModuleType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
         ));
+
     }
     
     /**
