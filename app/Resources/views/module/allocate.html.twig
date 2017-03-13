@@ -5,11 +5,11 @@
         <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3>{{ module.name}}</h3>
+                    <h3>Module Details</h3>
                 </div>
                 <div class="panel-body tablepanel">
                     {% if module.allocationsForModule %}
-                        {% include ':module:allocated.html.twig' %}
+                        {% include ':module:show.html.twig' %}
                     {% endif %}
                 </div>
             </div>
@@ -19,7 +19,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><h2>Allocations</h2></div>
                 <div class="panel-body tablepanel">
-                    <table class="table table-striped allocations"
+                    <table class="table table-responsive allocations"
                            data-prototype="
                                 {% filter escape %}
                                     {{ include(':allocationsformodule:prototype.item.html.twig', { 'form': form.allocationsForModule.vars.prototype }) }}

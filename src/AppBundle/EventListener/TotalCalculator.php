@@ -89,7 +89,7 @@ class TotalCalculator
             + $mixedModuleTotals['totalPrepHrs'] + $standardModuleTotals['totalAssessmentHrs']
             + $studioModuleTotals['totalAssessmentHrs'] + $mixedModuleTotals['totalAssessmentHrs']
             + $PhdAllocationTotals['totalSupportHrs'] + $ktpModuleTotals['totalPrepHrs']
-            + $moduleLeaderHrsTotal['moduleLeaderHrsTotal'] + $moduleLeaderHrsTotal['moduleLeaderHrsTotal']
+            + $moduleLeaderHrsTotal['moduleLeaderHrsTotal']
             + $internalModeratorHrsTotal['internalModeratorHrsTotal'] + $projectModulesPGTotals['totalAssessmentHrs']
             + $projectModulesUGTotals['totalAssessmentHrs'] + $teachingRelatedItemTotals['allocatedHrsTotal'];
         $staff->setTra($tra);

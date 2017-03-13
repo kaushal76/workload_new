@@ -28,7 +28,9 @@ class StaffController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
+
         $staffs = $em->getRepository('AppBundle:Staff')->findAll();
+
 
 
         return $this->render(':staff:index.html.twig', array(
@@ -560,7 +562,7 @@ class StaffController extends Controller
             + $mixedModuleTotals['totalPrepHrs'] + $standardModuleTotals['totalAssessmentHrs']
             + $studioModuleTotals['totalAssessmentHrs'] + $mixedModuleTotals['totalAssessmentHrs']
             + $PhdAllocationTotals['totalSupportHrs'] + $ktpModuleTotals['totalPrepHrs']
-            + $moduleLeaderHrsTotal['moduleLeaderHrsTotal'] + $moduleLeaderHrsTotal['moduleLeaderHrsTotal']
+            + $moduleLeaderHrsTotal['moduleLeaderHrsTotal']
             + $internalModeratorHrsTotal['internalModeratorHrsTotal'] + $projectModulesPGTotals['totalAssessmentHrs']
             + $projectModulesUGTotals['totalAssessmentHrs'] + $teachingRelatedItemTotals['allocatedHrsTotal'];
 

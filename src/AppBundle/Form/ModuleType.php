@@ -25,6 +25,7 @@ class ModuleType extends AbstractType
                 'Term 2' => 2,
                 'Term 3' => 3,
                 'Term 1 & 2' => 4,
+                'Term 2 & 3' => 6,
                 'Year around' => 5
             )));
         $builder->add('credit')
