@@ -22,11 +22,13 @@
                         <tbody>
                         {% for staff in staffs %}
                             <tr>
-                                <td>{{ staff.title }}{{' '}}{{ staff.firstname }}{{ ' ' }}{{ staff.surname }}  </td>
-                                {{ render(controller(
-                                'AppBundle:Staff:getHeadingTotals',
-                                { 'staff': staff }
-                                )) }}
+                                <td>{{ staff.title}}{{' '}}{{ staff.firstname }}{{ ' ' }}{{ staff.surname }}  </td>
+                                <td>{{ staff.re | number_format(2) }}</td>
+                                <td>{{ staff.fst | number_format(2) }}</td>
+                                <td>{{ staff.tra | number_format(2) }}</td>
+                                <td>{{ staff.mgt | number_format(2) }}</td>
+                                <td>{{ staff.admin | number_format(2) }}</td>
+                                <td>{{ staff.total | number_format(2) }}</td>
                                 <td>
                                     <a class="btn btn-sm"
                                        href="{{ path('allocations_staff', { 'id': staff.id }) }}">

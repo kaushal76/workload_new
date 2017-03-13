@@ -71,3 +71,8 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
+services:
+    staff.listener:
+        class: AppBundle\EventListener\TotalCalculator
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
