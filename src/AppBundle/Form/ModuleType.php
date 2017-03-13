@@ -16,8 +16,7 @@ class ModuleType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('item')
-            ->add('code')
+        $builder->add('code')
             ->add('name')
             ->add('year');
         $builder->add('term', ChoiceType::class, array(

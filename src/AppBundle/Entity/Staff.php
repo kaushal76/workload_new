@@ -72,6 +72,34 @@ class Staff {
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Module", mappedBy="internalModerator", cascade={"persist"})
      */
     protected $internalModerators;
+
+
+    /**
+     * Totals
+     */
+
+    protected $standardModuleTotals;
+    protected $studioModuleTotals;
+    protected $mixedModuleTotals;
+    protected $projectModulesUGTotals;
+    protected $placementModuleTotals;
+    protected $projectModulesPGTotals;
+    protected $ktpModuleTotals;
+    protected $moduleLeaderHrsTotal;
+    protected $internalModeratorHrsTotal;
+    protected $PhdAllocationTotals;
+    protected $researchItemTotals;
+    protected $teachingRelatedItemTotals;
+    protected $managementItemTotals;
+    protected $adminItemTotals;
+
+    protected $fst;
+    protected $tra;
+    protected $re;
+    protected $mgt;
+    protected $admin;
+    protected $total;
+
     /**
      * Staff constructor.
      */
@@ -390,8 +418,327 @@ class Staff {
         $this->allocationsForPhdStudent->removeElement($allocationsForPhdStudent);
     }
 
+    /**
+     * @return mixed
+     */
+    public function getStandardModuleTotals()
+    {
+        return $this->standardModuleTotals;
+    }
 
     /**
+     * @param mixed $standardModuleTotals
+     */
+    public function setStandardModuleTotals($standardModuleTotals)
+    {
+        $this->standardModuleTotals = $standardModuleTotals;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStudioModuleTotals()
+    {
+        return $this->studioModuleTotals;
+    }
+
+    /**
+     * @param mixed $studioModuleTotals
+     */
+    public function setStudioModuleTotals($studioModuleTotals)
+    {
+        $this->studioModuleTotals = $studioModuleTotals;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMixedModuleTotals()
+    {
+        return $this->mixedModuleTotals;
+    }
+
+    /**
+     * @param mixed $mixedModuleTotals
+     */
+    public function setMixedModuleTotals($mixedModuleTotals)
+    {
+        $this->mixedModuleTotals = $mixedModuleTotals;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProjectModulesUGTotals()
+    {
+        return $this->projectModulesUGTotals;
+    }
+
+    /**
+     * @param mixed $projectModulesUGTotals
+     */
+    public function setProjectModulesUGTotals($projectModulesUGTotals)
+    {
+        $this->projectModulesUGTotals = $projectModulesUGTotals;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlacementModuleTotals()
+    {
+        return $this->placementModuleTotals;
+    }
+
+    /**
+     * @param mixed $placementModuleTotals
+     */
+    public function setPlacementModuleTotals($placementModuleTotals)
+    {
+        $this->placementModuleTotals = $placementModuleTotals;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProjectModulesPGTotals()
+    {
+        return $this->projectModulesPGTotals;
+    }
+
+    /**
+     * @param mixed $projectModulesPGTotals
+     */
+    public function setProjectModulesPGTotals($projectModulesPGTotals)
+    {
+        $this->projectModulesPGTotals = $projectModulesPGTotals;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getKtpModuleTotals()
+    {
+        return $this->ktpModuleTotals;
+    }
+
+    /**
+     * @param mixed $ktpModuleTotals
+     */
+    public function setKtpModuleTotals($ktpModuleTotals)
+    {
+        $this->ktpModuleTotals = $ktpModuleTotals;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getModuleLeaderHrsTotal()
+    {
+        return $this->moduleLeaderHrsTotal;
+    }
+
+    /**
+     * @param mixed $moduleLeaderHrsTotal
+     */
+    public function setModuleLeaderHrsTotal($moduleLeaderHrsTotal)
+    {
+        $this->moduleLeaderHrsTotal = $moduleLeaderHrsTotal;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInternalModeratorHrsTotal()
+    {
+        return $this->internalModeratorHrsTotal;
+    }
+
+    /**
+     * @param mixed $internalModeratorHrsTotal
+     */
+    public function setInternalModeratorHrsTotal($internalModeratorHrsTotal)
+    {
+        $this->internalModeratorHrsTotal = $internalModeratorHrsTotal;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhdAllocationTotals()
+    {
+        return $this->PhdAllocationTotals;
+    }
+
+    /**
+     * @param mixed $PhdAllocationTotals
+     */
+    public function setPhdAllocationTotals($PhdAllocationTotals)
+    {
+        $this->PhdAllocationTotals = $PhdAllocationTotals;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getResearchItemTotals()
+    {
+        return $this->researchItemTotals;
+    }
+
+    /**
+     * @param mixed $researchItemTotals
+     */
+    public function setResearchItemTotals($researchItemTotals)
+    {
+        $this->researchItemTotals = $researchItemTotals;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTeachingRelatedItemTotals()
+    {
+        return $this->teachingRelatedItemTotals;
+    }
+
+    /**
+     * @param mixed $teachingRelatedItemTotals
+     */
+    public function setTeachingRelatedItemTotals($teachingRelatedItemTotals)
+    {
+        $this->teachingRelatedItemTotals = $teachingRelatedItemTotals;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getManagementItemTotals()
+    {
+        return $this->managementItemTotals;
+    }
+
+    /**
+     * @param mixed $managementItemTotals
+     */
+    public function setManagementItemTotals($managementItemTotals)
+    {
+        $this->managementItemTotals = $managementItemTotals;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdminItemTotals()
+    {
+        return $this->adminItemTotals;
+    }
+
+    /**
+     * @param mixed $adminItemTotals
+     */
+    public function setAdminItemTotals($adminItemTotals)
+    {
+        $this->adminItemTotals = $adminItemTotals;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFst()
+    {
+        return $this->fst;
+    }
+
+    /**
+     * @param mixed $fst
+     */
+    public function setFst($fst)
+    {
+        $this->fst = $fst;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTra()
+    {
+        return $this->tra;
+    }
+
+    /**
+     * @param mixed $tra
+     */
+    public function setTra($tra)
+    {
+        $this->tra = $tra;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRe()
+    {
+        return $this->re;
+    }
+
+    /**
+     * @param mixed $re
+     */
+    public function setRe($re)
+    {
+        $this->re = $re;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMgt()
+    {
+        return $this->mgt;
+    }
+
+    /**
+     * @param mixed $mgt
+     */
+    public function setMgt($mgt)
+    {
+        $this->mgt = $mgt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdmin()
+    {
+        return $this->admin;
+    }
+
+    /**
+     * @param mixed $admin
+     */
+    public function setAdmin($admin)
+    {
+        $this->admin = $admin;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
+    /**
+     * @param mixed $total
+     */
+    public function setTotal($total)
+    {
+        $this->total = $total;
+    }
+
+
     /**
      * @return string
      */

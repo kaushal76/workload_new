@@ -28,8 +28,8 @@ class StaffController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $staffs = $em->getRepository('AppBundle:Staff')->findAll();
+
 
         return $this->render(':staff:index.html.twig', array(
             'staffs' => $staffs,
