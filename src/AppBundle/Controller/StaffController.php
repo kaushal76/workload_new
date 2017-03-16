@@ -78,9 +78,22 @@ class StaffController extends Controller
         $editForm = $this->createForm(StaffType::class, $staff);
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($staff);
-            $em->flush();
+            try{
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($staff);
+                $em->flush();
+                $request->getSession()
+                    ->getFlashBag()
+                    ->add('success', 'Staff details updated')
+                ;
+            }
+            catch(\Exception $e){
+                $request->getSession()
+                    ->getFlashBag()
+                    ->add('error', $e->getMessage())
+                ;
+            }
+
             return $this->redirectToRoute('edit_staff', array('id' => $staff->getId()));
         }
         return $this->render('staff/edit.html.twig', array(

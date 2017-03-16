@@ -16,6 +16,7 @@ class TotalCalculator
             return;
         }
 
+
         $em = $args->getEntityManager();
 
         $standardModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')

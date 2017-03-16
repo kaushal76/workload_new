@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Collections\ArrayCollection;
 
+
 /**
  * Module controller.
  *
@@ -222,8 +223,33 @@ class ModuleController extends Controller
                     $em->remove($allocationformodule);
                 }
             }
-            $em->persist($module);
-            $em->flush();
+            try{
+                $em->persist($module);
+                $em->flush();
+                $request->getSession()
+                    ->getFlashBag()
+                    ->add('success', 'Allocations updated')
+                ;
+            }
+            catch (\Exception $e) {
+                $flashbag = $request->getSession()->getFlashBag();
+
+                switch (get_class($e)) {
+                    case 'Doctrine\DBAL\DBALException':
+                        $flashbag->add('error', $e->getMessage());
+                        break;
+                    case 'Doctrine\DBA\DBAException':
+                        $flashbag->add('error', $e->getMessage());
+                        break;
+                    case 'Doctrine\DBAL\Exception\UniqueConstraintViolationException':
+                        $flashbag->add('error', 'That staff member is already added to this module');
+                        break;
+                    default:
+                        $flashbag->add('error', 'Database error occurred. Please check your details again');
+                        break;
+                }
+            }
+
             return $this->redirectToRoute('module_allocate', array('id' => $module->getId()));
 
         }
