@@ -43,7 +43,6 @@ class AllocationRepository extends EntityRepository
             ->setParameter('category', $category);
 
         $totals = $query->getOneOrNullResult();
-
         return $totals;
 
     }
@@ -53,10 +52,10 @@ class AllocationRepository extends EntityRepository
         $em = $this->getEntityManager();
         $query = $em->createQuery('
           SELECT 
-          SUM(CASE WHEN r.category = 3 THEN p.allocatedHrs ELSE 0 END) AS ResearchAllocatedHrsTotal,
-          SUM(CASE WHEN r.category = 4 THEN p.allocatedHrs ELSE 0 END) AS TeachingRelatedAllocatedHrsTotal,
-          SUM(CASE WHEN r.category = 5 THEN p.allocatedHrs ELSE 0 END) AS ManagementAllocatedHrsTotal,
-          SUM(CASE WHEN r.category = 6 THEN p.allocatedHrs ELSE 0 END) AS AdminAllocatedHrsTotal
+          SUM(CASE WHEN r.category = 3 THEN p.allocatedHrs ELSE 0 END) AS researchAllocatedHrsTotal,
+          SUM(CASE WHEN r.category = 4 THEN p.allocatedHrs ELSE 0 END) AS teachingRelatedAllocatedHrsTotal,
+          SUM(CASE WHEN r.category = 5 THEN p.allocatedHrs ELSE 0 END) AS managementAllocatedHrsTotal,
+          SUM(CASE WHEN r.category = 6 THEN p.allocatedHrs ELSE 0 END) AS adminAllocatedHrsTotal
           FROM AppBundle:Allocation p
           LEFT JOIN AppBundle:Item r WITH p.item = r.id
           LEFT JOIN AppBundle:Staff s WITH p.staff = s.id
@@ -65,7 +64,6 @@ class AllocationRepository extends EntityRepository
             ->setParameter('staff', $staff);
 
         $totals = $query->getOneOrNullResult();
-
         return $totals;
 
     }
