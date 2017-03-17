@@ -4,7 +4,7 @@ namespace AppBundle\Controller;
 use AppBundle\AppBundle;
 use AppBundle\Entity\Staff;
 use AppBundle\Form\StaffType;
-use AppBundle\Repository\AlloactionRepository;
+use AppBundle\Repository\AllocationRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;

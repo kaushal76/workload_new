@@ -19,6 +19,11 @@ class TotalCalculator
 
         $em = $args->getEntityManager();
 
+        $moduleTotals = $em->getRepository('AppBundle:AllocationsForModule')
+            ->findTotalsEx($staff);
+
+        dump($moduleTotals);
+        /**
         $standardModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')
             ->findTotals($staff, 2);
         $staff->setStandardModuleTotals($standardModuleTotals);
@@ -46,6 +51,9 @@ class TotalCalculator
         $ktpModuleTotals = $em->getRepository('AppBundle:AllocationsForModule')
             ->findTotals($staff, 8);
         $staff->setKtpModuleTotals($ktpModuleTotals);
+        */
+
+        /*
 
         $moduleLeaderHrsTotal = $em->getRepository('AppBundle:Module')
             ->findModuleLeaderTotal($staff);
@@ -55,6 +63,12 @@ class TotalCalculator
             ->findinternalModeratorTotal($staff);
         $staff->setInternalModeratorHrsTotal($internalModeratorHrsTotal);
 
+        */
+
+
+        $moduleLeaderAndInternalModerator = $em->getRepository('AppBundle:Module')
+            ->findModuleLeaderInternalModeratorTotal($staff);
+
         // PhD queries
 
         $PhdAllocationTotals = $em->getRepository('AppBundle:AllocationsForPhdStudent')
@@ -62,6 +76,7 @@ class TotalCalculator
         $staff->setPhdAllocationTotals($PhdAllocationTotals);
 
         //item queries
+        /*
 
         $researchItemTotals = $em->getRepository('AppBundle:Allocation')
             ->findTotals($staff, 3);
@@ -79,7 +94,12 @@ class TotalCalculator
             ->findTotals($staff, 6);
         $staff->setAdminItemTotals($adminItemTotals);
 
+        */
 
+        $itemTotals = $em->getRepository('AppBundle:Allocation')
+            ->findTotalsCombined($staff);
+
+        /**
         $fst = $standardModuleTotals['totalAllocatedHrs'] + $studioModuleTotals['totalAllocatedHrs']
             + $mixedModuleTotals['totalAllocatedHrs'] +$projectModulesUGTotals['totalAllocatedHrs']
             + $projectModulesPGTotals['totalAllocatedHrs'] + $placementModuleTotals['totalAllocatedHrs']
@@ -94,14 +114,30 @@ class TotalCalculator
             + $internalModeratorHrsTotal['internalModeratorHrsTotal'] + $projectModulesPGTotals['totalAssessmentHrs']
             + $projectModulesUGTotals['totalAssessmentHrs'] + $teachingRelatedItemTotals['allocatedHrsTotal'];
         $staff->setTra($tra);
+        */
 
-        $re = $researchItemTotals['allocatedHrsTotal'];
+        $fst = $moduleTotals['StandardTotalAllocatedHrs'] + $moduleTotals['StudioTotalAllocatedHrs']
+            + $moduleTotals['MixedTotalAllocatedHrs'] +$moduleTotals['ProjectUGTotalAllocatedHrs']
+            + $moduleTotals['PlacementTotalAllocatedHrs'] + $moduleTotals['ProjectPGTotalAllocatedHrs']
+            + $PhdAllocationTotals['totalAllocatedHrs'] + $moduleTotals['KTPTotalAllocatedHrs'];
+        $staff->setFst($fst);
+
+        $tra = $moduleTotals['StandardTotalPrepHrs'] + $moduleTotals['StudioTotalPrepHrs']
+            + $moduleTotals['MixedTotalPrepHrs'] + $moduleTotals['StandardTotalAssessmentHrs']
+            + $moduleTotals['StudioTotalAssessmentHrs'] + $moduleTotals['MixedTotalAssessmentHrs']
+            + $PhdAllocationTotals['totalSupportHrs'] + $moduleTotals['KTPTotalPrepHrs']
+            + $moduleLeaderAndInternalModerator['moduleLeaderHrsTotal']
+            + $moduleLeaderAndInternalModerator['internalModeratorHrsTotal'] + $moduleTotals['ProjectPGTotalAssessmentHrs']
+            + $moduleTotals['ProjectUGTotalAssessmentHrs'] + $itemTotals['TeachingRelatedAllocatedHrsTotal'];
+        $staff->setTra($tra);
+
+        $re = $itemTotals['ResearchAllocatedHrsTotal'];
         $staff->setRe($re);
 
-        $mgt = $managementItemTotals['allocatedHrsTotal'];
+        $mgt = $itemTotals['ManagementAllocatedHrsTotal'];
         $staff->setMgt($mgt);
 
-        $admin = $adminItemTotals['allocatedHrsTotal'];
+        $admin = $itemTotals['AdminAllocatedHrsTotal'];
         $staff->setAdmin($admin);
 
         $total = $fst+$tra+$re+$mgt+$admin;

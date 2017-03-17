@@ -58,6 +58,24 @@ class ModuleRepository extends EntityRepository
 
     }
 
+    public function findModuleLeaderInternalModeratorTotal($staff)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('
+          SELECT SUM
+          (CASE WHEN p.moduleLeader = :staff THEN p.moduleLeaderHrs ELSE 0 END) AS moduleLeaderHrsTotal,
+          (CASE WHEN p.internalModerator = :staff THEN p.internalModeratorHrs ELSE 0 END) AS internalModeratorHrsTotal
+          FROM AppBundle:Module p
+          ')
+            ->setParameter('staff', $staff);
+
+        $totals = $query->getOneOrNullResult();
+        return $totals;
+
+
+    }
+
+
     public function findinternalModeratorTotal($staff)
     {
         $em = $this->getEntityManager();

@@ -4,10 +4,10 @@ namespace AppBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 
 /**
- * AlloactionRepository
+ * AllocationRepository
  *
  */
-class AlloactionRepository extends EntityRepository
+class AllocationRepository extends EntityRepository
 {
     public function findAllocationsForStaffByCategory($staff, $category)
     {
@@ -47,4 +47,30 @@ class AlloactionRepository extends EntityRepository
         return $totals;
 
     }
+
+    public function findTotalsCombined($staff)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('
+          SELECT 
+          SUM(CASE WHEN r.category = 3 THEN p.allocatedHrs ELSE 0 END) AS ResearchAllocatedHrsTotal,
+          SUM(CASE WHEN r.category = 4 THEN p.allocatedHrs ELSE 0 END) AS TeachingRelatedAllocatedHrsTotal,
+          SUM(CASE WHEN r.category = 5 THEN p.allocatedHrs ELSE 0 END) AS ManagementAllocatedHrsTotal,
+          SUM(CASE WHEN r.category = 6 THEN p.allocatedHrs ELSE 0 END) AS AdminAllocatedHrsTotal
+          FROM AppBundle:Allocation p
+          LEFT JOIN AppBundle:Item r WITH p.item = r.id
+          LEFT JOIN AppBundle:Staff s WITH p.staff = s.id
+          WHERE (p.staff = :staff)
+          ')
+            ->setParameter('staff', $staff);
+
+        $totals = $query->getOneOrNullResult();
+
+        return $totals;
+
+    }
+
+
+
+
 }

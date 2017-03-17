@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @package AppBundle\Entity
  * @ORM\Entity
  * @ORM\Table(name="allocations")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\AlloactionRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\AllocationRepository")
  */
 class Allocation {
 
