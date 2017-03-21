@@ -54,6 +54,16 @@ class Item {
      */
     protected $category;
 
+    /**
+     * One optional module one item .
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Module", mappedBy="item")
+     *
+     *
+     */
+
+
+    protected $module;
+
 
     /**
      * Item constructor.

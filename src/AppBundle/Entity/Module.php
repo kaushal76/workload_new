@@ -97,6 +97,15 @@ class Module {
      */
     protected $studioRatio;
 
+    /**
+     * One module leader one staff .
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Item", inversedBy="module")
+     * @ORM\JoinColumn(name="item_id", referencedColumnName="id")
+     *
+     */
+
+    protected $item;
+
 
     /**
      * @var float
