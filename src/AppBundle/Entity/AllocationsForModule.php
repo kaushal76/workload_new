@@ -20,6 +20,7 @@ class AllocationsForModule {
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Staff", inversedBy="allocationsForModule")
      * @ORM\JoinColumn(name="staff", referencedColumnName="id")
+     *
      */
     protected $staff;
 
@@ -146,7 +147,6 @@ class AllocationsForModule {
             $moduleContactHrs = $module->getContactHrs();
             $modulePrepHrs = $module->getPreparationHrs();
             $allocatedHrs = $this->getAllocatedHrs();
-
             $prepHrs = (float)$allocatedHrs * (float)$modulePrepHrs/(float)$moduleContactHrs;
         }
         return $prepHrs;

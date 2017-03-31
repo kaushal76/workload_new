@@ -1,0 +1,58 @@
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12">
+                            <div id="chart" style="width:100%; height:400px;"></div>
+                        </div><!--/col-->
+                        <div class="col-xs-12 col-sm-8">
+                            <h2>{{ staff.title }}{{ ' ' }}{{ staff.firstname }}{{ ' ' }}{{ staff.surname }}</h2>
+                            <p><strong>Employment basis: </strong> {{ staff.empbasis }}  </p>
+                            <p><strong>Modules: </strong>
+                                {% for module in staff.allocationsForModule %}
+                                <span class="label label-info tags">{{ module.module.code  }}</span>
+                                {% endfor %}
+                            </p>
+                        </div><!--/col-->
+                        <div class="col-xs-12 col-sm-4 text-center">
+                            <img src="http://placehold.it/350x350?text=Photo" alt="" class="center-block img-circle img-responsive">
+                        </div><!--/col-->
+
+                        <div class="col-xs-12 col-sm-4" >
+                            <h2><strong> {{ (adminItemTotals.allocatedHrsTotal + managementItemTotals.allocatedHrsTotal
+                                    + standardModuleTotals.totalPrepHrs + studioModuleTotals.totalPrepHrs
+                                    + mixedModuleTotals.totalPrepHrs + standardModuleTotals.totalAssessmentHrs
+                                    + studioModuleTotals.totalAssessmentHrs + mixedModuleTotals.totalAssessmentHrs
+                                    + PhdAllocationTotals.totalSupportHrs + ktpModuleTotals.totalPrepHrs
+                                    + moduleLeaderHrsTotal.moduleLeaderHrsTotal
+                                    + internalModeratorHrsTotal.internalModeratorHrsTotal + projectModulesPGTotals.totalAssessmentHrs
+                                    + projectModulesUGTotals.totalAssessmentHrs + teachingRelatedItemTotals.allocatedHrsTotal
+                                    + standardModuleTotals.totalAllocatedHrs + studioModuleTotals.totalAllocatedHrs
+                                    + mixedModuleTotals.totalAllocatedHrs +projectModulesUGTotals.totalAllocatedHrs
+                                    + projectModulesPGTotals.totalAllocatedHrs + placementModuleTotals.totalAllocatedHrs
+                                    + PhdAllocationTotals.totalAllocatedHrs + ktpModuleTotals.totalAllocatedHrs
+                                    + researchItemTotals.allocatedHrsTotal) | number_format(2)
+                                    }}</strong></h2>
+                            <p><small>TOTAL W/L</small></p>
+                        </div><!--/col-->
+                        <div class="col-xs-12 col-sm-4">
+                            <h2><strong>{{ staff.fte | number_format(2) }}</strong></h2>
+                            <p><small>FTE</small></p>
+                        </div><!--/col-->
+                        <div class="col-xs-12 col-sm-4">
+                            <h2><strong>  {{ (standardModuleTotals.totalAllocatedHrs + studioModuleTotals.totalAllocatedHrs
+                                    + mixedModuleTotals.totalAllocatedHrs +projectModulesUGTotals.totalAllocatedHrs
+                                    + projectModulesPGTotals.totalAllocatedHrs + placementModuleTotals.totalAllocatedHrs
+                                    + PhdAllocationTotals.totalAllocatedHrs + ktpModuleTotals.totalAllocatedHrs) | number_format(2) }}</strong></h2>
+                            <p><small>FST/year</small></p>
+                        </div><!--/col-->
+                        <div class="col-xs-12 col-sm-4">
+                            <h2><strong> {{ researchItemTotals.allocatedHrsTotal | number_format(2) }}</strong></h2>
+                            <p><small>R&E</small></p>
+                        </div><!--/col-->
+                    </div><!--/row-->
+                </div><!--/panel-body-->
+            </div><!--/panel-->
+
+
+

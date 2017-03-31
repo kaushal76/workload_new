@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Class Module
@@ -136,6 +137,126 @@ class Module {
      * @ORM\Column(type="decimal", precision=10, scale=2)
      */
     protected $internalModeratorHrs;
+
+    /**
+     * @var
+     * @ORM\Column(type="text")
+     */
+    protected $comments;
+
+    /**
+     * @var \DateTime $created
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime $updated
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    protected $updated;
+
+
+    /**
+     * @var
+     * @ORM\Column(type="boolean")
+     */
+    protected $manualContactHrsInput;
+
+
+    /**
+     * @var \DateTime $contentChanged
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Timestampable(on="change", field={"comment"})
+     */
+    protected $contentChanged;
+
+    /**
+     * @return mixed
+     */
+    public function getManualContactHrsInput()
+    {
+        return $this->manualContactHrsInput;
+    }
+
+    /**
+     * @param mixed $manualContactHrsInput
+     */
+    public function setManualContactHrsInput($manualContactHrsInput)
+    {
+        $this->manualContactHrsInput = $manualContactHrsInput;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * @param \DateTime $created
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * @param \DateTime $updated
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getContentChanged()
+    {
+        return $this->contentChanged;
+    }
+
+    /**
+     * @param \DateTime $contentChanged
+     */
+    public function setContentChanged($contentChanged)
+    {
+        $this->contentChanged = $contentChanged;
+    }
+
 
     /**
      * @return mixed
@@ -567,6 +688,9 @@ class Module {
 
         $contactHrs = $this->getContactHrs();
 
+        if ($this->getManualContactHrsInput()) {
+            return $contactHrs;
+        }
         if ($mode->getCode() == 1) {
             $contactHrs = (float)$credit * (float)$contactHrsfactor;
         }

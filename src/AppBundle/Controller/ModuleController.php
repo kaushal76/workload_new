@@ -192,7 +192,6 @@ class ModuleController extends Controller
 
     public function allocationsAction(Request $request, Module $module)
     {
-
         $form = $this->createForm('AppBundle\Form\ModuleType', $module);
         $em = $this->getDoctrine()->getManager();
         $moduleObj = $em->getRepository('AppBundle:Module')->find($module);

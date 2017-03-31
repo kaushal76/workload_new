@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
+
 class ModuleType extends AbstractType
 {
     /**
@@ -33,6 +34,7 @@ class ModuleType extends AbstractType
             ->add('preparationHrs')
             ->add('assessmentHrs')
             ->add('contactHrs')
+            ->add('manualContactHrsInput', null,array('label'=>'Input Contact Hours manually'))
             ->add('studioRatio')
             ->add('groupFactor')
             ->add('course')
@@ -50,6 +52,7 @@ class ModuleType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
         ));
+        $builder->add('comments', null,array('label'=>'Notes'));
 
     }
     

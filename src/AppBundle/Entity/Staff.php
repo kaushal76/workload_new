@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Class Staff
@@ -30,6 +31,7 @@ class Staff {
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\AllocationsForModule", mappedBy="staff", cascade={"persist", "remove"})
+     *
      */
 
     protected $allocationsForModule;
@@ -111,8 +113,45 @@ class Staff {
     protected $total;
 
     /**
+     * @var
+     * @ORM\Column(type="text")
+     */
+    protected $comments;
+
+    /**
+     * @var \DateTime $created
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime $updated
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    protected $updated;
+
+    /**
+     * @var \DateTime $contentChanged
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Timestampable(on="change", field={"fte"})
+     */
+    protected $contentChanged;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $empbasis;
+
+    /**
      * Staff constructor.
      */
+
 
     public function __construct()
     {
@@ -122,6 +161,88 @@ class Staff {
         $this->internalModerators = new ArrayCollection();
         $this->moduleLeaders = new ArrayCollection();
 
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmpbasis()
+    {
+        return $this->empbasis;
+    }
+
+    /**
+     * @param string $empbasis
+     */
+    public function setEmpbasis($empbasis)
+    {
+        $this->empbasis = $empbasis;
+    }
+
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * @param \DateTime $created
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * @param \DateTime $updated
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getContentChanged()
+    {
+        return $this->contentChanged;
+    }
+
+    /**
+     * @param \DateTime $contentChanged
+     */
+    public function setContentChanged($contentChanged)
+    {
+        $this->contentChanged = $contentChanged;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
     }
 
     /**

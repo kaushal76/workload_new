@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class StaffType extends AbstractType
 {
@@ -16,7 +17,7 @@ class StaffType extends AbstractType
         $builder->add('title');
         $builder->add('firstname');
         $builder->add('surname');
-        $builder->add('fte');
+        $builder->add('fte', null,array('label'=>'FTE'));
         $builder->add('allocations', CollectionType::class, array(
             'entry_type'   => AllocationType::class,
             'allow_add'   => true,
@@ -35,6 +36,16 @@ class StaffType extends AbstractType
             'allow_delete' => true,
             'by_reference' => false,
         ));
+
+        $builder->add('empbasis', ChoiceType::class, array(
+            'choices'  => array(
+                'In house' => 'In house',
+                'Part time Hourly Paid' => 'PTHP',
+                'Postgraduate support' => 'PhD student',
+
+            ),
+            'label'=>'Employment basis'));
+        $builder->add('comments', null,array('label'=>'Notes'));
     }
 
     public function configureOptions(OptionsResolver $resolver)
