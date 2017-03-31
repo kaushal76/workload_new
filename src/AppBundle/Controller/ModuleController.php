@@ -126,13 +126,12 @@ class ModuleController extends Controller
             $module->setPreparationHrs($preparationHrs);
             $module->setContactHrs($contactHrs);
 
-            foreach ($module->getAllocationsForModule() as $allocationformodule) {
+            foreach ($module->getAllocationsForModule() as $allocationForModule) {
 
-                $allocationformodule->setModule($module);
-                $allocationformodule->setprepHrs($allocationformodule->calculatePrepHrs($module));
-                $allocationformodule->setAssessmentHrs($allocationformodule->calculateAssessmentHrs($module));
+                $allocationForModule->setModule($module);
+                $allocationForModule->setprepHrs($allocationForModule->calculatePrepHrs($module));
+                $allocationForModule->setAssessmentHrs($allocationForModule->calculateAssessmentHrs($module));
             }
-
 
             $this->getDoctrine()->getManager()->flush();
 
@@ -193,34 +192,30 @@ class ModuleController extends Controller
 
     public function allocationsAction(Request $request, Module $module)
     {
-
         $form = $this->createForm('AppBundle\Form\ModuleType', $module);
         $em = $this->getDoctrine()->getManager();
         $moduleObj = $em->getRepository('AppBundle:Module')->find($module);
 
         $originalAllocationsforModule = new ArrayCollection();
 
-        foreach ($moduleObj->getAllocationsForModule() as $allocationformodule) {
-            $originalAllocationsforModule->add($allocationformodule);
+        foreach ($moduleObj->getAllocationsForModule() as $allocationForModule) {
+            $originalAllocationsforModule->add($allocationForModule);
         }
-
-        //$total = $this->calculateTotals($item);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            foreach ($module->getAllocationsForModule() as $allocationForModule) {
 
-            foreach ($module->getAllocationsForModule() as $allocationformodule) {
-
-                $allocationformodule->setModule($module);
-                $allocationformodule->setprepHrs($allocationformodule->calculatePrepHrs($module));
-                $allocationformodule->setAssessmentHrs($allocationformodule->calculateAssessmentHrs($module));
+                $allocationForModule->setModule($module);
+                $allocationForModule->setprepHrs($allocationForModule->calculatePrepHrs($module));
+                $allocationForModule->setAssessmentHrs($allocationForModule->calculateAssessmentHrs($module));
             }
 
-            foreach ($originalAllocationsforModule as $allocationformodule) {
-                if (false === $module->getAllocationsForModule()->contains($allocationformodule)) {
-                    $em->remove($allocationformodule);
+            foreach ($originalAllocationsforModule as $allocationForModule) {
+                if (false === $module->getAllocationsForModule()->contains($allocationForModule)) {
+                    $em->remove($allocationForModule);
                 }
             }
             try{

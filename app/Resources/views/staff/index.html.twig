@@ -10,6 +10,7 @@
                         <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Basis</th>
                             <th class="rotate"><div><span>Research and Enterprise</span></div></th>
                             <th class="rotate"><div><span>Formal Scheduled Teaching</span></div></th>
                             <th class="rotate"><div><span>Teaching related activities</span></div></th>
@@ -23,6 +24,7 @@
                         {% for staff in staffs %}
                             <tr>
                                 <td>{{ staff.title}}{{' '}}{{ staff.firstname }}{{ ' ' }}{{ staff.surname }}  </td>
+                                <td>{{ staff.empbasis }}  </td>
                                 <td>{{ staff.re | number_format(2) }}</td>
                                 <td>{{ staff.fst | number_format(2) }}</td>
                                 <td>{{ staff.tra | number_format(2) }}</td>
