@@ -34,26 +34,26 @@ class Allocation {
 
     /**
      * @var float
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="decimal", precision=10, scale=2)
      */
     protected $allocatedHrs;
 
     /**
      * @var float
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="decimal", precision=10, scale=2)
      */
 
     protected $prepHrs;
 
     /**
      * @var float
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="decimal", precision=10, scale=2)
      */
 
     protected $assessmentHrs;
 
     /**
-     * @return float
+     * @return mixed
      */
     public function getAssessmentHrs()
     {
@@ -61,7 +61,7 @@ class Allocation {
     }
 
     /**
-     * @param float $assessmentHrs
+     * @param mixed $assessmentHrs
      */
     public function setAssessmentHrs($assessmentHrs)
     {
@@ -70,7 +70,7 @@ class Allocation {
 
 
     /**
-     * @return float
+     * @return mixed
      */
     public function getPrepHrs()
     {
@@ -78,7 +78,7 @@ class Allocation {
     }
 
     /**
-     * @param float $prepHrs
+     * @param mixed $prepHrs
      */
     public function setPrepHrs($prepHrs)
     {
