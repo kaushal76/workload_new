@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Doctrine\Common\Collections\ArrayCollection;
-
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class StaffController
@@ -523,6 +523,13 @@ class StaffController extends Controller
 
 
 
+    /**
+     * Lists all Staff entities.
+     *
+     * @param Request $request Staff $staff
+     * @Route("/{id}/totals", options={"expose"=true}, name="staff_totals")
+     * @Method({"GET"})
+     */
     public function getHeadingTotalsAction(Staff $staff)
     {
         $em = $this->getDoctrine()->getManager();
@@ -566,12 +573,12 @@ class StaffController extends Controller
 
 
 
-        $fst = $standardModuleTotals['totalAllocatedHrs'] + $studioModuleTotals['totalAllocatedHrs']
+        (float)$fst = $standardModuleTotals['totalAllocatedHrs'] + $studioModuleTotals['totalAllocatedHrs']
             + $mixedModuleTotals['totalAllocatedHrs'] +$projectModulesUGTotals['totalAllocatedHrs']
             + $projectModulesPGTotals['totalAllocatedHrs'] + $placementModuleTotals['totalAllocatedHrs']
             + $PhdAllocationTotals['totalAllocatedHrs'] + $ktpModuleTotals['totalAllocatedHrs'];
 
-        $tra = $standardModuleTotals['totalPrepHrs'] + $studioModuleTotals['totalPrepHrs']
+        (float)$tra = $standardModuleTotals['totalPrepHrs'] + $studioModuleTotals['totalPrepHrs']
             + $mixedModuleTotals['totalPrepHrs'] + $standardModuleTotals['totalAssessmentHrs']
             + $studioModuleTotals['totalAssessmentHrs'] + $mixedModuleTotals['totalAssessmentHrs']
             + $PhdAllocationTotals['totalSupportHrs'] + $ktpModuleTotals['totalPrepHrs']
@@ -579,13 +586,14 @@ class StaffController extends Controller
             + $internalModeratorHrsTotal['internalModeratorHrsTotal'] + $projectModulesPGTotals['totalAssessmentHrs']
             + $projectModulesUGTotals['totalAssessmentHrs'] + $teachingRelatedItemTotals['allocatedHrsTotal'];
 
-        $re = $researchItemTotals['allocatedHrsTotal'];
-        $mgt = $managementItemTotals['allocatedHrsTotal'];
-        $admin = $adminItemTotals['allocatedHrsTotal'];
+        (float)$re = $researchItemTotals['allocatedHrsTotal']+0;
+        (float)$mgt = $managementItemTotals['allocatedHrsTotal']+0;
+        (float)$admin = $adminItemTotals['allocatedHrsTotal']+0;
 
-        $total = $fst+$tra+$re+$mgt+$admin;
+        (float)$total = $fst+$tra+$re+$mgt+$admin;
 
-        return $this->render(':staff:index.template.html.twig', array(
+
+        return $this->json(array(
             'fst' => $fst,
             'tra' => $tra,
             're' => $re,
@@ -595,6 +603,17 @@ class StaffController extends Controller
 
         ));
 
+        /*
+        return $this->render(':staff:index.template.html.twig', array(
+            'fst' => $fst,
+            'tra' => $tra,
+            're' => $re,
+            'mgt' => $mgt,
+            'admin'=>$admin,
+            'total'=>$total,
+
+        ));
+        */
     }
 
 }

@@ -29,26 +29,10 @@
     </div>
 {% endblock %}
 {% block javascripts %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     <script>
-        var RE = '{{ researchItemTotals.allocatedHrsTotal|number_format(2)| json_encode()|raw }}';
-
-        var FST = '{{ (standardModuleTotals.totalAllocatedHrs + studioModuleTotals.totalAllocatedHrs
-        + mixedModuleTotals.totalAllocatedHrs +projectModulesUGTotals.totalAllocatedHrs
-        + projectModulesPGTotals.totalAllocatedHrs + placementModuleTotals.totalAllocatedHrs
-        + PhdAllocationTotals.totalAllocatedHrs + ktpModuleTotals.totalAllocatedHrs) |number_format(2)| json_encode()|raw }}';
-
-        var TRA = '{{ (standardModuleTotals.totalPrepHrs + studioModuleTotals.totalPrepHrs
-        + mixedModuleTotals.totalPrepHrs + standardModuleTotals.totalAssessmentHrs
-        + studioModuleTotals.totalAssessmentHrs + mixedModuleTotals.totalAssessmentHrs
-        + PhdAllocationTotals.totalSupportHrs + ktpModuleTotals.totalPrepHrs
-        + moduleLeaderHrsTotal.moduleLeaderHrsTotal
-        + internalModeratorHrsTotal.internalModeratorHrsTotal + projectModulesPGTotals.totalAssessmentHrs
-        + projectModulesUGTotals.totalAssessmentHrs + teachingRelatedItemTotals.allocatedHrsTotal ) |number_format(2)| json_encode()|raw }}';
-
-        var ADMIN = '{{ adminItemTotals.allocatedHrsTotal |number_format(2)| json_encode()|raw }}';
-        var MGT = '{{ managementItemTotals.allocatedHrsTotal |number_format(2)| json_encode()|raw }}';
-
-
+        var ID = {{ staff.id | json_encode()|raw }};
     </script>
     <script src="{{ asset('javascript/chart.js') }}"></script>
 {% endblock %}
