@@ -37,6 +37,9 @@
         "symfony/phpunit-bridge": "^3.0"
     },
     "scripts": {
+        "pre-install-cmd": [
+            "AppBundle\\Composer\\HerokuEnvironment::populateEnvironment"
+        ],
         "symfony-scripts": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
@@ -50,11 +53,9 @@
         ],
         "post-update-cmd": [
             "@symfony-scripts"
-        ],
-
-        "pre-install-cmd": [
-            "AppBundle\\Composer\\HerokuEnvironment::populateEnvironment"
         ]
+
+
     },
     "extra": {
         "symfony-app-dir": "app",
