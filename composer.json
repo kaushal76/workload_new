@@ -55,8 +55,6 @@
         "post-update-cmd": [
             "@symfony-scripts"
         ]
-
-
     },
     "extra": {
         "symfony-app-dir": "app",
