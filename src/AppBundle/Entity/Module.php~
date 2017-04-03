@@ -1,0 +1,512 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Class Module
+ * @package AppBundle\Entity
+ * @ORM\Entity
+ * @ORM\Table(name="module")
+ */
+class Module {
+
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     *
+     * One module leader one staff .
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Item", inversedBy="module")
+     * @ORM\JoinColumn(name="item_id", referencedColumnName="id")
+     */
+    protected $item;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $code;
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $name;
+
+    /**
+     * @var int
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Course", inversedBy="modules")
+     * @ORM\JoinColumn(name="course", referencedColumnName="id")
+     */
+    protected $course;
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $term;
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $year;
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $credit;
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $studentNos;
+    /**
+     * @var int
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ModuleCategory", inversedBy="modules")
+     * @ORM\JoinColumn(name="module_category", referencedColumnName="id")
+     */
+    protected $moduleCategory;
+
+    /**
+     * @var int
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\GroupFilter", inversedBy="modules")
+     * @ORM\JoinColumn(name="group_filter", referencedColumnName="id")
+     */
+    protected $groupFilter;
+
+    /**
+     * @var int
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AssessmentCategory", inversedBy="modules")
+     * @ORM\JoinColumn(name="assessment_category", referencedColumnName="id")
+     */
+    protected $assessmentCategory;
+
+    /**
+     * @var int
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\PreparationCategory", inversedBy="modules")
+     * @ORM\JoinColumn(name="preparation_category", referencedColumnName="id")
+     */
+    protected $preparationCategory;
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $preparationHrs;
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $assessmentHrs;
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $contactHrs;
+    /**
+     * @ORM\Column(type="float")
+     */
+    protected $studioRatio;
+
+
+    /**
+     * @var float
+     * @ORM\Column(type="float")
+     */
+    protected $groupFactor;
+
+
+    /**
+     * One module leader one staff .
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Staff")
+     * @ORM\JoinColumn(name="moduleLeader", referencedColumnName="id")
+     */
+    protected $moduleLeader;
+
+    /**
+     * One internal Moderator one staff .
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Staff")
+     * @ORM\JoinColumn(name="internalModerator", referencedColumnName="id")
+     */
+    protected $internalModerator;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getItem()
+    {
+        return $this->item;
+    }
+
+    /**
+     * @return float
+     */
+    public function getGroupFactor()
+    {
+        return $this->groupFactor;
+    }
+
+    /**
+     * @param float $groupFactor
+     */
+    public function setGroupFactor($groupFactor)
+    {
+        $this->groupFactor = $groupFactor;
+    }
+
+    /**
+     * @param mixed $item
+     */
+    public function setItem($item)
+    {
+        $this->item = $item;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * @param mixed $code
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCourse()
+    {
+        return $this->course;
+    }
+
+    /**
+     * @param mixed $course
+     */
+    public function setCourse($course)
+    {
+        $this->course = $course;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTerm()
+    {
+        return $this->term;
+    }
+
+    /**
+     * @param mixed $term
+     */
+    public function setTerm($term)
+    {
+        $this->term = $term;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getYear()
+    {
+        return $this->year;
+    }
+
+    /**
+     * @param mixed $year
+     */
+    public function setYear($year)
+    {
+        $this->year = $year;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCredit()
+    {
+        return $this->credit;
+    }
+
+    /**
+     * @param mixed $credit
+     */
+    public function setCredit($credit)
+    {
+        $this->credit = $credit;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStudentNos()
+    {
+        return $this->studentNos;
+    }
+
+    /**
+     * @param mixed $studentNos
+     */
+    public function setStudentNos($studentNos)
+    {
+        $this->studentNos = $studentNos;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getModuleCategory()
+    {
+        return $this->moduleCategory;
+    }
+
+    /**
+     * @param mixed $moduleCategory
+     */
+    public function setModuleCategory($moduleCategory)
+    {
+        $this->moduleCategory = $moduleCategory;
+    }
+
+    /**
+     * @return int
+     */
+    public function getGroupFilter()
+    {
+        return $this->groupFilter;
+    }
+
+    /**
+     * @param int $groupFilter
+     */
+    public function setGroupFilter($groupFilter)
+    {
+        $this->groupFilter = $groupFilter;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAssessmentCategory()
+    {
+        return $this->assessmentCategory;
+    }
+
+    /**
+     * @param int $assessmentCategory
+     */
+    public function setAssessmentCategory($assessmentCategory)
+    {
+        $this->assessmentCategory = $assessmentCategory;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPreparationCategory()
+    {
+        return $this->preparationCategory;
+    }
+
+    /**
+     * @param mixed $preparationCategory
+     */
+    public function setPreparationCategory($preparationCategory)
+    {
+        $this->preparationCategory = $preparationCategory;
+    }
+
+
+    public function getPreparationHrs()
+    {
+        $credit = $this->getCredit();
+        $mode = $this->getModuleCategory();
+        $studio = $this->getStudioRatio();
+        $preparationCategory = $this->getPreparationCategory();
+        $studioPrepHrs = $preparationCategory->getstudioPrepHrs();
+
+        $preparationHrs = 0;
+
+        if ($mode->getCode() == 1) {
+            $preparationHrs = (int)$credit * (float)$preparationCategory->getCode();
+        }
+
+        if ($mode->getCode() == 2) {
+            $preparationHrs = $studioPrepHrs;
+        }
+
+        if ($mode->getCode() == 3) {
+
+            $preparationHrs = ((int)$credit * (float)$preparationCategory->getCode() * (1-((float)$studio)))+((float)$studioPrepHrs * (float)$studio);
+        }
+
+        return $preparationHrs;
+    }
+
+    /**
+     * @param mixed $preparationHrs
+     */
+    public function setPreparationHrs($preparationHrs)
+    {
+        $this->preparationHrs = $preparationHrs;
+    }
+
+
+    public function getAssessmentHrs()
+    {
+        $credit = $this->getCredit();
+        $mode = $this->getModuleCategory();
+        $studentNumbers = $this->getStudentNos();
+        $studio = $this->getStudioRatio();
+        $assessmentCategory = $this->getAssessmentCategory();
+        $studioAssessmentHrs = $assessmentCategory->getstudioAssessmentHrs();
+
+        $assessmentHrs = 0;
+
+        if ($mode->getCode() == 1) {
+            $assessmentHrs = (float)$credit * (float)$assessmentCategory->getCode() * (float)$studentNumbers;
+        }
+
+        if ($mode->getCode() == 2) {
+            $assessmentHrs = $studioAssessmentHrs * (float)$credit * (float)$studentNumbers;
+        }
+
+        if ($mode->getCode() == 3) {
+
+            $assessmentHrs = ((int)$credit * (float)$assessmentCategory->getCode() * (1-((float)$studio)) * (float)$studentNumbers)+((float)$studioAssessmentHrs * (float)$studio * (float)$credit * (float)$studentNumbers);
+        }
+
+        return $assessmentHrs;
+    }
+
+    /**
+     * @param mixed $assessmentHrs
+     */
+    public function setAssessmentHrs($assessmentHrs)
+    {
+        $this->assessmentHrs = $assessmentHrs;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContactHrs()
+    {
+        $credit = $this->getCredit();
+        $mode = $this->getModuleCategory();
+        $studentNumbers = $this->getStudentNos();
+        $studio = $this->getStudioRatio();
+        $groupFactor = $this->getGroupFactor();
+        $contactHrsfactor = $mode->getContactHrsFactor();
+
+        $contactHrs = 0;
+
+        if ($mode->getCode() == 1) {
+            $contactHrs = (float)$credit * (float)$contactHrsfactor;
+        }
+
+        if ($mode->getCode() == 2) {
+            $contactHrs = (float)$credit * (float)$contactHrsfactor * (float)$groupFactor;
+        }
+
+        if ($mode->getCode() == 3) {
+
+            $contactHrs = ((float)$credit * (float)$contactHrsfactor * (1-((float)$studio)))+((float)$credit * (float)$contactHrsfactor * (float)$groupFactor * (float)$studio);
+        }
+
+        if ($mode->getCode() == 4) {
+
+            $contactHrs = (float)$contactHrsfactor * $studentNumbers;
+        }
+
+        if ($mode->getCode() == 5) {
+
+            $contactHrs = (float)$contactHrsfactor * $studentNumbers;
+        }
+
+        return $contactHrs;
+    }
+
+    /**
+     * @param mixed $contactHrs
+     */
+    public function setContactHrs($contactHrs)
+    {
+        $this->contactHrs = $contactHrs;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStudioRatio()
+    {
+        return $this->studioRatio;
+    }
+
+    /**
+     * @param mixed $studioRatio
+     */
+    public function setStudioRatio($studioRatio)
+    {
+        $this->studioRatio = $studioRatio;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getModuleLeader()
+    {
+        return $this->moduleLeader;
+    }
+
+    /**
+     * @param mixed $moduleLeader
+     */
+    public function setModuleLeader($moduleLeader)
+    {
+        $this->moduleLeader = $moduleLeader;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInternalModerator()
+    {
+        return $this->internalModerator;
+    }
+
+    /**
+     * @param mixed $internalModerator
+     */
+    public function setInternalModerator($internalModerator)
+    {
+        $this->internalModerator = $internalModerator;
+    }
+
+
+
+}
