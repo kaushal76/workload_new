@@ -27,5 +27,7 @@ class HerokuEnvironment
 
         $io = $event->getIO();
         $io->write('CLEARDB_DATABASE_URL=' . getenv('CLEARDB_DATABASE_URL'));
+
+        echo "TEst";
     }
 }

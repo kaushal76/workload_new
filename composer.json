@@ -38,6 +38,7 @@
     },
     "scripts": {
         "pre-install-cmd": [
+            "echo \"pre-install-cmd\\n\"",
             "AppBundle\\Composer\\HerokuEnvironment::populateEnvironment"
         ],
         "symfony-scripts": [
