@@ -17,12 +17,12 @@ class HerokuEnvironment
 
         if ($url) {
             $url = parse_url($url);
-            putenv("SYMFONY__DATABASE_HOST={$url['host']}");
-            putenv("SYMFONY__DATABASE_USER={$url['user']}");
-            putenv("SYMFONY__DATABASE_PASSWORD={$url['pass']}");
+            putenv("DB_HOST={$url['host']}");
+            putenv("DB_USER={$url['user']}");
+            putenv("DB_PASSWORD={$url['pass']}");
 
             $db = substr($url['path'], 1);
-            putenv("SYMFONY__DATABASE_NAME={$db}");
+            putenv("DB_NAME={$db}");
         }
 
         $io = $event->getIO();
