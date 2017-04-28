@@ -84,6 +84,12 @@ class Staff {
 
     /**
      * @var
+     * Total Hours per week for Formally Scheduled Teaching
+     */
+    protected $fstwk;
+
+    /**
+     * @var
      * Total Hours for Teaching Related Activities
      */
     protected $tra;
@@ -161,6 +167,22 @@ class Staff {
         $this->internalModerators = new ArrayCollection();
         $this->moduleLeaders = new ArrayCollection();
 
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFstwk()
+    {
+        return $this->fstwk;
+    }
+
+    /**
+     * @param mixed $fstwk
+     */
+    public function setFstwk($fstwk)
+    {
+        $this->fstwk = $fstwk;
     }
 
     /**

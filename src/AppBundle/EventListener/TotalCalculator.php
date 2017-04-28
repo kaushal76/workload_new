@@ -41,6 +41,12 @@ class TotalCalculator
             + $PhdAllocationTotals['totalAllocatedHrs'] + $moduleTotals['KTPTotalAllocatedHrs'];
         $staff->setFst($fst);
 
+        $fstwk = $moduleTotals['standardTotalAllocatedHrs']/24 + $moduleTotals['studioTotalAllocatedHrs']/24
+            + $moduleTotals['mixedTotalAllocatedHrs']/24 +$moduleTotals['projectUGTotalAllocatedHrs']/24
+            + $moduleTotals['placementTotalAllocatedHrs']/24 + $moduleTotals['projectPGTotalAllocatedHrs']/42
+            + $PhdAllocationTotals['totalAllocatedHrs']/42 + $moduleTotals['KTPTotalAllocatedHrs']/42;
+        $staff->setFstwk($fstwk);
+
         $tra = $moduleTotals['standardTotalPrepHrs'] + $moduleTotals['studioTotalPrepHrs']
             + $moduleTotals['mixedTotalPrepHrs'] + $moduleTotals['standardTotalAssessmentHrs']
             + $moduleTotals['studioTotalAssessmentHrs'] + $moduleTotals['mixedTotalAssessmentHrs']

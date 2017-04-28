@@ -16,6 +16,7 @@
                             <th class="rotate"><div><span>Teaching related activities</span></div></th>
                             <th class="rotate"><div><span>Management</span></div></th>
                             <th class="rotate"><div><span>Administration</span></div></th>
+                            <th class="rotate"><div><span>FST per week</span></div></th>
                             <th class="rotate"><div><span>Total workload</span></div></th>
                             <th width="10%">Actions</th>
                         </tr>
@@ -30,6 +31,7 @@
                                 <td>{{ staff.tra | number_format(2) }}</td>
                                 <td>{{ staff.mgt | number_format(2) }}</td>
                                 <td>{{ staff.admin | number_format(2) }}</td>
+                                <td>{{ staff.fstwk | number_format(2) }}</td>
                                 <td>{{ staff.total | number_format(2) }}</td>
                                 <td>
                                     <a class="btn btn-sm"

@@ -30,17 +30,15 @@
         "incenteev/composer-parameter-handler": "^2.0",
         "stof/doctrine-extensions-bundle": "^1.2",
         "friendsofsymfony/jsrouting-bundle": "^1.6",
-        "friendsofsymfony/user-bundle": "~2.0"
+        "friendsofsymfony/user-bundle": "~2.0",
+        "deployer/deployer": "^3.3"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
         "symfony/phpunit-bridge": "^3.0"
     },
     "scripts": {
-        "pre-install-cmd": [
-            "echo \"pre-install-cmd\\n\"",
-            "AppBundle\\Composer\\HerokuEnvironment::populateEnvironment"
-        ],
+
         "symfony-scripts": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
@@ -54,12 +52,7 @@
         ],
         "post-update-cmd": [
             "@symfony-scripts"
-        ],
-
-        "pre-update-cmd": [
-          "echo \"pre-install-cmd\\n\"",
-          "AppBundle\\Composer\\HerokuEnvironment::populateEnvironment"
-          ]
+        ]
     },
     "extra": {
         "symfony-app-dir": "app",
